@@ -98,9 +98,7 @@ For bug reports and suggestions or if you just want to talk to me
 please contact me at volker.tanger@wyae.de
 
 
------------------------------------------------------------------------
-Monitoring server Setup
------------------------------------------------------------------------
+#Monitoring server Setup
 
 Get and unzip the archive - usually in /usr/local/lib/mosshe.
 
@@ -126,18 +124,14 @@ In the MOSSHE shell script file you now can configure the checks to be
 run - usually you can set warning and alert trigger levels
 
 
-#=========================================================
 # Local Shows
-#=========================================================
 
 ServerInfo 		prints the output of the command into an
 			information section onto the server-specific
 			HTML page (i.e. the srv_MYNAME page) which is
 			directly linked from the overviews.
 
-#=========================================================
 # Local Checks
-#=========================================================
 
 DaysUpCheck		notify of recent reboot
 
@@ -196,9 +190,7 @@ CheckFileChanges	compare current file to known-good copy
 CheckConfigChanges	compare config (command) to known-good copy
 
 
-#=========================================================
 # Network Checks
-#=========================================================
 
 PingPartner		maximum ping loss and avg. roundtrip
 PingTime 		max roundtrip time regardless loss
@@ -227,17 +219,13 @@ DNSquery		checks whether a DNS response is given
 DNSmatch		checks a DNS response against expected value
 
 
-#=========================================================
 # MySQL Checks
-#=========================================================
 
 MySQLThreads		number of Threads running
 MySQLQueries		number of Queries/second
 
 
-#=========================================================
 # VIRTUALization Checks
-#=========================================================
 
 CheckVserverDown	verifies if Linux VSERVER is shut down
 CheckVserverUp		verifies if Linux VSERVER is up and running
@@ -246,9 +234,7 @@ VserverLoad		measures individual Linux VSERVER uptime * 100
 VZbeancounter		checks usage (percent) of OpenVZ/Virtuzzo beancounters
  
 
-#=========================================================
 # Import agent data *from* other servers
-#=========================================================
 
 Typical setup is to monitor multiple scattered servers from behind
 (DSL) a router/firewall.
@@ -270,9 +256,7 @@ ImportServerInfo  import the server info txt file for a server
 
 
 
-#=========================================================
 # Centralize data *to* other servers
-#=========================================================
 
 Typical setup is to monitor multiple customer servers without opening
 a TCP listener on them to reduce possible attack surface on those
@@ -303,13 +287,13 @@ monitoring drop-off directory.
 
 Examples of drop-off script snippets to include into the MOSSHE script: 
 
-### via file system mount
+via file system mount
 cp $WWDIR/index.csv /mnt/nfsmount/mosshe/zeus.example.com.csv		
 
-### via password-free ssh key
+via password-free ssh key
 scp $WWDIR/index.csv mosshe@central.example.com:zeus.example.com.csv	
 
-### via ftp-upload
+via ftp-upload
 ftp-upload --host central.example.com --user USER --password PASSWD \
 	--passive --no-ls --dir /incoming \
 	--as zeus.example.com.csv $WWDIR/index.csv
@@ -321,18 +305,15 @@ for the existence of the check file and its age. If the file is too
 old (given in minutes), something with the (passively) monitored
 system is probably wrong and an alert is raised. 
 
-# MYGROUP="Externals"
-#### reap from       servername,   max.age , file location
-# ReapPassiveChecks  zeus.example.com  10  /home/ftp/zeus.example.com.csv 
-# ReapPassiveChecks  hera.example.com  10  /home/ssh/hera.example.com.csv
+MYGROUP="Externals"
+ # reap from       servername,   max.age , file location
+ReapPassiveChecks  zeus.example.com  10  /home/ftp/zeus.example.com.csv 
+ReapPassiveChecks  hera.example.com  10  /home/ssh/hera.example.com.csv
 
 
 
 
-#=========================================================
 # Alerting, Logging
-#=========================================================
-
 
 LogTo			write full log to given filename
 LogToDaily		as above, but with date appended 
@@ -378,8 +359,7 @@ quite safe for even non-admin multiuser use...
 
 
 
-Quick setup:
-------------
+# Quick setup:
 * make sure you have NMAP installed
 * change to the TOOLS directory.
 * run  ./create_mosshe.sh MYNETWORKFILE ipaddress/mask
@@ -393,9 +373,7 @@ will scan your local network (in this example: 192.168.0.0/16) and
 create a basic monitoring from the services found.
 
 
------------------------------------------------------------------------
-Known/common Problems and Maintenance
------------------------------------------------------------------------
+# Known/common Problems and Maintenance
 
 During the first run (usually including every reboot of the system)
 MoSShE will complain on nonexisting previous files it tries to compare 
@@ -407,9 +385,7 @@ outages) there something needs fixing.
 
 
 
------------------------------------------------------------------------
-Customizing Checks & Writing your own
------------------------------------------------------------------------
+# Customizing Checks & Writing your own
 
 Writing your own:
 
@@ -474,9 +450,7 @@ If you have a nice (free) check that could be of use to other people, please
 send it to me so I can include it into the distribution.
 
 
------------------------------------------------------------------------
-Shortcut: Distributable under  GPL
------------------------------------------------------------------------
+# Shortcut: Distributable under  GPL
 Copyright (C) 2003- Volker Tanger
 
 This program is free software; you can redistribute it and/or modify
@@ -493,6 +467,3 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307,
 USA. or on their website http://www.gnu.org/copyleft/gpl.html
-
------------------------------------------------------------------------
-
