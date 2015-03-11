@@ -39,3 +39,4 @@ transfer. Additionally each agent creates simple (static) HTML pages
 with full and condensed status reports on each system, allowing simple
 local checks.
 
+# For details pleas eee the README.txt
