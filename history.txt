@@ -55,6 +55,7 @@ v15.4.14
 	* feaure/bugfix: network checks now report on server FROM which 
 	  the check is done as well as TO which server, so monitoring can 
 	  cope with distributed monitoring of the same servie
+	* bugfix: copy/paste error in HDCheckGB corrected
 
 v14.12.04
     Volker Tanger <volker.tanger@wyae.de>
