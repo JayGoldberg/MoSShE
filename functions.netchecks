@@ -283,7 +283,7 @@ function TCPing () {
 	    RTN="Service tcp/$PORT answers"
 	    RTNCODE=1
        fi
-       echo "${DATIM};$MYGROUP;$SRV;TCPing_$PORT;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
+       echo "${DATIM};$MYGROUP;$MYNAME;TCPing_${SRV}_${PORT};$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
    fi
 }
 
@@ -303,7 +303,7 @@ function DNSquery () {
 
     STATUS="ALERT"
     if [ -z `which dig` ]; then
-	echo "${DATIM};$MYGROUP;$DNSSERVER;dns (general);UNDEF;-1;DIG not installed - cannot perform DNS check"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;dns (general);UNDEF;-1;DIG not installed - cannot perform DNS check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
 	RTN=`dig +short @$DNSSERVER $FQDN $QTYPE | tail -n 1`
 	RTNCODE=`echo $RTN | wc -c | sed -e "s/ //g"`
@@ -313,7 +313,7 @@ function DNSquery () {
 	    RTN="(not resolved)"
 	    RTNCODE=$(( RTNCODE + 100 ))
 	fi
-	echo "${DATIM};$MYGROUP;${DNSSERVER};DNSquery_${FQDN}_${QTYPE};$STATUS;$RTNCODE;resolves to: $RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;${MYNAME};DNSquery_${FQDN}_${QTYPE}_at_${DNSSERVER};$STATUS;$RTNCODE;resolves to: $RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
     fi	
 }
 
@@ -345,7 +345,7 @@ function DNSmatch () {
 	    RTN="(not resolved)"
 	    RTNCODE=$(( RTNCODE + 200 ))
 	fi
-	echo "${DATIM};$MYGROUP;${DNSSERVER};DNSmatch_${FQDN}_${QTYPE};$STATUS;$RTNCODE;resolves to: $RTN , expected: $EXPECTED"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;DNSmatch_${FQDN}_${QTYPE}_at_${DNSSERVER};$STATUS;$RTNCODE;resolves to: $RTN , expected: $EXPECTED"  >> $TEMPDIR/tmp.$$.collected.tmp
     fi	
 }
 
@@ -363,7 +363,7 @@ function HTTPheader () {
     SRV=`echo $URL | cut -d "/" -f 3 | cut -d ":" -f 1`
 
     if [ -z `which lynx` ]; then
-	echo "${DATIM};$MYGROUP;$SRV;HTTPheader;UNDEF;-1;LYNX not installed - cannot perform HTTP check"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;HTTPheader;UNDEF;-1;LYNX not installed - cannot perform HTTP check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
 	RTN=`lynx -connect_timeout=30 -dump -head $URL 2>/dev/null| head --lines=1`
 	RTNCODE=`echo $RTN | cut -d " " -f 2`
@@ -373,7 +373,7 @@ function HTTPheader () {
 	elif [ "$RTNCODE" -ge 200 ]; then STATUS="OK"
 	else STATUS="UNDEF"
 	fi
-	echo "${DATIM};$MYGROUP;$SRV;HTTPheader;$STATUS;$RTNCODE;$URL - $RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;HTTPheader_$SRV;$STATUS;$RTNCODE;$URL - $RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
     fi
 }
 
@@ -392,7 +392,7 @@ function HTTPheadermatch () {
     SRV=`echo $URL | cut -d "/" -f 3 | cut -d ":" -f 1`
 
     if [ -z `which lynx` ]; then
-	echo "${DATIM};$MYGROUP;$SRV;HTTPheader;UNDEF;-1;LYNX not installed - cannot perform HTTP check"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;HTTPheader;UNDEF;-1;LYNX not installed - cannot perform HTTP check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
 	RTN=`lynx -connect_timeout=30 -dump -head $URL 2>/dev/null | head --lines=1`
 	RTNCODE=`echo $RTN | cut -d " " -f 2`
@@ -403,7 +403,7 @@ function HTTPheadermatch () {
 	elif [ "$RTNCODE" -ge 200 ]; then STATUS="WARN"
 	else STATUS="UNDEF"
 	fi
-	echo "${DATIM};$MYGROUP;$SRV;HTTPheadermatch_$EXPECTED;$STATUS;$RTNCODE;$URL - $RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;HTTPheadermatch_${SRV}_$EXPECTED;$STATUS;$RTNCODE;$URL - $RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
     fi
 }
 
@@ -422,7 +422,7 @@ function HTTPcontentmatch () {
     if [ "$SRV" = "$PORT" ]; then PORT=80; fi
 
     if [ -z `which wget` ]; then
-	echo "${DATIM};$MYGROUP;$SRV;HTTPcontentmatch;UNDEF;-1;WGET not installed - cannot perform HTTP check"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;HTTPcontentmatch;UNDEF;-1;WGET not installed - cannot perform HTTP check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
 	wget -q -O $TEMPDIR/tmp.$$.HTTPcontent_${SRV}.rtn "$URL"
 	fgrep "$MATCH" $TEMPDIR/tmp.$$.HTTPcontent_$SRV.rtn >  $TEMPDIR/tmp.$$.HTTPcontent_${SRV}.match
@@ -431,7 +431,7 @@ function HTTPcontentmatch () {
 	elif [ -s $TEMPDIR/tmp.$$.HTTPcontent_$SRV.rtn ]; then RTNCODE=0; STATUS="WARN"; MSG="$MATCH missing"
 	else RTNCODE=400; STATUS="ALERT"; MSG="Service unreachable"
 	fi
-	echo "${DATIM};$MYGROUP;$SRV;HTTPcontentmatch;$STATUS;$RTNCODE;$URL - $MSG"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;HTTPcontentmatch_$SRV;$STATUS;$RTNCODE;$URL - $MSG"  >> $TEMPDIR/tmp.$$.collected.tmp
 	rm $TEMPDIR/tmp.$$.HTTPcontent_${SRV}.*
     fi
 }
@@ -449,7 +449,7 @@ function FTPcheck () {
     typeset -i RTNCODE=0
 
     if [ -z `which netcat` ]; then
-	echo "${DATIM};$MYGROUP;$SRV;FTPcheck;UNDEF;-1;NC not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;FTPcheck;UNDEF;-1;NC not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
 	RTN=`echo "quit" | nc -w $NETWAIT -q 1 -i 1 $SRV 21 | head -n 1`
 	if [ $? -gt 0 ]; 
@@ -461,7 +461,7 @@ function FTPcheck () {
 	    elif [ "$RTNCODE" -ge 400 ]; then STATUS="WARN"; 
 	    elif [ "$RTNCODE" -ge 200 ]; then STATUS="OK"; fi
        fi
-       echo "${DATIM};$MYGROUP;$SRV;FTPcheck;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
+       echo "${DATIM};$MYGROUP;$MYNAME;FTPcheck_$SRV;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
    fi
 }
 
@@ -480,7 +480,7 @@ function SSHcheck () {
     typeset -i RTNCODE=0
 
     if [ -z `which netcat` ]; then
-	echo "${DATIM};$MYGROUP;$SRV;SSHcheck;UNDEF;-1;NC not installed - cannot perform SSH check"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;SSHcheck;UNDEF;-1;NC not installed - cannot perform SSH check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
 	FULLRTN=`echo " " | nc -w $NETWAIT -q 1 -i 1 $SRV $PORT | head -n 1`
 	RTN=`echo "$FULLRTN" | head -c 4`
@@ -497,7 +497,7 @@ function SSHcheck () {
 	    RTNCODE=2;
 	    RTN="Strange response from SSH: $FULLRTN"
        fi
-       echo "${DATIM};$MYGROUP;$SRV;SSHcheck;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
+       echo "${DATIM};$MYGROUP;$MYNAME;SSHcheck_$SRV;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
    fi
 }
 
@@ -514,7 +514,7 @@ function POP3check () {
     typeset -i RTNCODE=0
 
     if [ -z `which netcat` ]; then
-	echo "${DATIM};$MYGROUP;$SRV;POP3check;UNDEF;-1;NC not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;POP3check;UNDEF;-1;NC not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else	
 	RTN=`echo "quit" | nc -w $NETWAIT -q 1 -i 1 $SRV 110 | head --bytes=3`
 
@@ -529,7 +529,7 @@ function POP3check () {
 	    WERT="1"
 	fi
 
-       echo "${DATIM};$MYGROUP;$SRV;POP3check;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
+       echo "${DATIM};$MYGROUP;$MYNAME;POP3check_$SRV;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
    fi
 }
 
@@ -546,7 +546,7 @@ function IMAPcheck () {
     typeset -i RTNCODE=0
 
     if [ -z `which netcat` ]; then
-	echo "${DATIM};$MYGROUP;$SRV;IMAPcheck;UNDEF;-1;NC not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;IMAPcheck;UNDEF;-1;NC not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else	
 	RTN=`echo "IC Logout" | nc -w $NETWAIT -q 1 -i 1 $SRV 143 | head --bytes=4`
 
@@ -561,7 +561,7 @@ function IMAPcheck () {
 	    WERT="1"
 	fi
 
-       echo "${DATIM};$MYGROUP;$SRV;IMAPcheck;$STATUS;$WERT;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
+       echo "${DATIM};$MYGROUP;$MYNAME;IMAPcheck_$SRV;$STATUS;$WERT;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
    fi
 }
 
@@ -578,7 +578,7 @@ function SMTPcheck () {
     typeset -i RTNCODE=0
 
     if [ -z `which netcat` ]; then
-	echo "${DATIM};$MYGROUP;$SRV;SMTPcheck;UNDEF;-1;NC not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;SMTPcheck;UNDEF;-1;NC not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
 	RTN=`echo "quit" | nc -w $NETWAIT -q 1 -i 1 $SRV 25 | head -n 1`
 	if [ $? -gt 0 ]; 
@@ -590,7 +590,7 @@ function SMTPcheck () {
 	    elif [ "$RTNCODE" -ge 400 ]; then STATUS="WARN"; 
 	    elif [ "$RTNCODE" -ge 200 ]; then STATUS="OK"; fi
        fi
-       echo "${DATIM};$MYGROUP;$SRV;SMTPcheck;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
+       echo "${DATIM};$MYGROUP;$MYNAME;SMTPcheck_$SRV;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
    fi
 }
 
@@ -609,7 +609,7 @@ function RBLcheckFQDN () {
     typeset -i RTNCODE=33
 
     if [ -z `which dig` ]; then
-	echo "${DATIM};$MYGROUP;$SRV;RBLcheckFQDN;UNDEF;-1;DIG not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;RBLcheckFQDN;UNDEF;-1;DIG not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
 	IP=`dig +short $SRV | grep -e "^[0-9.]\+$" | head -n 1`
 	set `IFS="."; echo $IP`
@@ -629,7 +629,7 @@ function RBLcheckFQDN () {
 	    RTN="$RBL blacklists $IP : $RESOLVED"
 	    RTNCODE=22
        fi
-       echo "${DATIM};$MYGROUP;$SRV;RBLcheckFQDN_$RBL;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
+       echo "${DATIM};$MYGROUP;$MYNAME;RBLcheckFQDN_${RBL}_at_$SRV;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
    fi
 }
 
@@ -648,7 +648,7 @@ function RBLcheckIP () {
     typeset -i RTNCODE=33
 
     if [ -z `which dig` ]; then
-	echo "${DATIM};$MYGROUP;$SRV;RBLcheckIP;UNDEF;-1;DIG not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;RBLcheckIP;UNDEF;-1;DIG not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
 	IP=$SRV
 	set `IFS="."; echo $IP`
@@ -668,7 +668,7 @@ function RBLcheckIP () {
 	    RTN="$RBL blacklists $IP : $RESOLVED"
 	    RTNCODE=22
        fi
-       echo "${DATIM};$MYGROUP;$SRV;RBLcheckIP_$RBL;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
+       echo "${DATIM};$MYGROUP;$MYNAME;RBLcheckIP_${RBL}_at_$SRV;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
    fi
 }
 
@@ -685,7 +685,7 @@ function SAMBAcheck () {
     typeset -i RTNCODE=0
 
     if [ -z `which smbclient` ]; then
-	echo "${DATIM};$MYGROUP;$SRV;SAMBAcheck;UNDEF;-1;SMBCLIENT not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
+	echo "${DATIM};$MYGROUP;$MYNAME;SAMBAcheck;UNDEF;-1;SMBCLIENT not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
 	RTN=`smbclient -N -L $IP 2>/dev/null`
 	RTNCODE=$?
@@ -696,7 +696,7 @@ function SAMBAcheck () {
 	    STATUS="OK";
 	    RTN="SMB/CIFS services running on $IP"
 	fi
-       echo "${DATIM};$MYGROUP;$IP;SAMBAcheck;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
+       echo "${DATIM};$MYGROUP;$MYNAME;SAMBAcheck_$IP;$STATUS;$RTNCODE;$RTN"  >> $TEMPDIR/tmp.$$.collected.tmp
    fi
 }
 

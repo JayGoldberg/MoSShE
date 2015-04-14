@@ -49,6 +49,13 @@ todo:
 	- want: alerting: send alerts on ALERT only (escalation)
 	- want: webviews: SLA reports, downtimes/availability
 
+v15.4.14
+    Volker Tanger <volker.tanger@wyae.de>
+	!!! changed network checks naming convention
+	* feaure/bugfix: network checks now report on server FROM which 
+	  the check is done as well as TO which server, so monitoring can 
+	  cope with distributed monitoring of the same servie
+
 v14.12.04
     Volker Tanger <volker.tanger@wyae.de>
 	* feaure: added MemCheckLinux
