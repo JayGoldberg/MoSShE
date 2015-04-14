@@ -224,11 +224,11 @@ function HDfreeMB () {
     typeset -i VALUE GBVALUE
     STATUS="OK"
     
-    DF=df -Plm $HD | fgrep '/' | sed -e "s/  */ /g"    if [ "$DF" ]; then
+    DF=`df -Plm $HD | fgrep '/' | sed -e "s/  */ /g"`
     if [ "$DF" ]; then
         MOUNT=`echo $DF | cut -d " " -f 6`
-        MESSAGE="Disk free : $GBVALUE GB"
-    	VALUE=echo $DF | cut -d " " -f 4        MESSAGE="Disk free : $VALUE MB"
+    	VALUE=`echo $DF | cut -d " " -f 4`
+        MESSAGE="Disk free : $VALUE MB"
     	if [ $VALUE -lt $WARN ]; then STATUS="WARN"; MESSAGE="Disk tight : $VALUE MB"; fi
     	if [ $VALUE -lt $ALERT ]; then STATUS="ALERT"; MESSAGE="Disk critically full : $VALUE MB"; fi
     else
