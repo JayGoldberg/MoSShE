@@ -74,6 +74,23 @@ function DebianUpdatesAvailable () {
     fi
 }
 
+#---------------------------------------------------------
+# FedoraUpdatesAvailable - if true alert; if false ok
+#---------------------------------------------------------
+function FedoraUpdatesAvailable () {
+    MossheLog "FedoraUpdatesAvailable"
+    if [ -x /etc/cron.hourly/mosshe_hourly ]; then
+        if [ -s /tmp/mosshe.FedoraUpdatesAvailable ]; then
+            echo "${DATIM};$MYGROUP;$MYNAME;FedoraUpdates;WARN;2;Fedora updates are available" >> $TEMPDIR/tmp.$$.collected.tmp
+        else
+            echo "${DATIM};$MYGROUP;$MYNAME;FedoraUpdates;OK;0;Your Fedora is up to date" >> $TEMPDIR/tmp.$$.collected.tmp
+        fi
+    else
+        echo "${DATIM};$MYGROUP;$MYNAME;FedoraUpdates;UNDEF;1;Fedora updates need hourly check - which is missing" >> $TEMPDIR/tmp.$$.collected.tmp
+    fi
+}
+
+
 
 #---------------------------------------------------------
 # Ubuntu Updates Available - if true alert; if false ok

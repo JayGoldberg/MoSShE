@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------
-      			MoSShE  v15.4.14
+      			MoSShE  v15.4.23
  	   2003-2015 by Volker Tanger <volker.tanger@wyae.de>
 -----------------------------------------------------------------------
 
@@ -142,6 +142,8 @@ ServerInfo 		prints the output of the command into an
 DaysUpCheck		notify of recent reboot
 
 DebianUpdatesAvailable	status whether updates are available (debian) 
+			needs hourly cron job - included in the TAR
+FedoraUpdatesAvailable	status whether updates are available (debian) 
 			needs hourly cron job - included in the TAR
 UbuntuUpdatesAvailable	number of package updates available (ubuntu)
 UbuntuReleaseUpgrade	is a release upgrade available? (ubuntu)

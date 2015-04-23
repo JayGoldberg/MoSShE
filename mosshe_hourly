@@ -1,10 +1,12 @@
 #!/bin/bash
 
-
 # DebianUpdatesAvailable
-apt-get update 2>&1 > /dev/null  
-apt-get -u upgrade --assume-no > /tmp/mosshe.DebianUpdatesAvailable.$$
-fgrep Abbruch /tmp/mosshe.DebianUpdatesAvailable.$$ > /tmp/mosshe.DebianUpdatesAvailable
-fgrep Abort /tmp/mosshe.DebianUpdatesAvailable.$$ >> /tmp/mosshe.DebianUpdatesAvailable
-rm /tmp/mosshe.DebianUpdatesAvailable.$$ 
+apt-get update > /dev/null  2> /dev/null
+apt-get -u upgrade --assume-no > /tmp/mosshe.DebianUpdatesAvailable.$$  2> /dev/null
+fgrep Abbruch /tmp/mosshe.DebianUpdatesAvailable.$$ > /tmp/mosshe.DebianUpdatesAvailable  2> /dev/null
+fgrep Abort /tmp/mosshe.DebianUpdatesAvailable.$$ >> /tmp/mosshe.DebianUpdatesAvailable  2> /dev/null
+rm /tmp/mosshe.DebianUpdatesAvailable.$$   2> /dev/null
+
+# FedoraUpdatesAvailable
+yum check-update | tail -n +2 > /tmp/mosshe.FedoraUpdatesAvailable  2> /dev/null
 

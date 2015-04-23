@@ -49,6 +49,11 @@ todo:
 	- want: alerting: send alerts on ALERT only (escalation)
 	- want: webviews: SLA reports, downtimes/availability
 
+v15.4.23
+    Volker Tanger <volker.tanger@wyae.de>
+	* feaure: added FedoraUpdatesAvailable check 
+	  (similar to DebianUpdatesCheck)
+
 v15.4.14
     Volker Tanger <volker.tanger@wyae.de>
 	!!! changed network checks naming convention
