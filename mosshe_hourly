@@ -10,3 +10,6 @@ rm /tmp/mosshe.DebianUpdatesAvailable.$$   2> /dev/null
 # FedoraUpdatesAvailable
 yum check-update | tail -n +2 > /tmp/mosshe.FedoraUpdatesAvailable  2> /dev/null
 
+# ArchlinuxUpdatesAvailable
+pacupdatescheck > /tmp/mosshe.ArchlinuxUpdatesAvailable  2> /dev/null
+

@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------
-      			MoSShE  v15.4.23
+      			MoSShE  v15.4.25
  	   2003-2015 by Volker Tanger <volker.tanger@wyae.de>
 -----------------------------------------------------------------------
 
@@ -144,6 +144,8 @@ DaysUpCheck		notify of recent reboot
 DebianUpdatesAvailable	status whether updates are available (debian) 
 			needs hourly cron job - included in the TAR
 FedoraUpdatesAvailable	status whether updates are available (debian) 
+			needs hourly cron job - included in the TAR
+ArchlinuxUpdatesAvailable	status whether updates are available (debian) 
 			needs hourly cron job - included in the TAR
 UbuntuUpdatesAvailable	number of package updates available (ubuntu)
 UbuntuReleaseUpgrade	is a release upgrade available? (ubuntu)

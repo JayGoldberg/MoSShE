@@ -93,6 +93,24 @@ function FedoraUpdatesAvailable () {
 
 
 #---------------------------------------------------------
+# ArchlinuxUpdatesAvailable - if true alert; if false ok
+#---------------------------------------------------------
+function ArchlinuxUpdatesAvailable () {
+    MossheLog "ArchlinuxUpdatesAvailable"
+    if [ -x /etc/cron.hourly/mosshe_hourly ]; then
+        if [ -s /tmp/mosshe.ArchlinuxUpdatesAvailable ]; then
+            echo "${DATIM};$MYGROUP;$MYNAME;ArchlinuxUpdates;WARN;2;Archlinux updates are available" >> $TEMPDIR/tmp.$$.collected.tmp
+        else
+            echo "${DATIM};$MYGROUP;$MYNAME;ArchlinuxUpdates;OK;0;Your Archlinux is up to date" >> $TEMPDIR/tmp.$$.collected.tmp
+        fi
+    else
+        echo "${DATIM};$MYGROUP;$MYNAME;ArchlinuxUpdates;UNDEF;1;Archlinux updates need hourly check - which is missing" >> $TEMPDIR/tmp.$$.collected.tmp
+    fi
+}
+
+
+
+#---------------------------------------------------------
 # Ubuntu Updates Available - if true alert; if false ok
 #---------------------------------------------------------
 function UbuntuUpdatesAvailable () {
