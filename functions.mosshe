@@ -26,7 +26,7 @@
 #############################################################################
 
 
-MOSSHEVERSION="14.12.03"
+MOSSHEVERSION="15.6.11"
 
 #---------------------------------------------------------
 # init library and files
@@ -216,11 +216,14 @@ function FinalizeLog () {
     
     rm -f $TEMPDIR/mosshe_lock.*
 
-    for F in $WWWDIR/srv_*.txt.new; do
+    TXTDIRLIST=`ls  $WWWDIR/srv_*.txt.new 2> /dev/null`
+    if [ -n "$TXTDIRLIST" ]; then
+      for F in $WWWDIR/srv_*.txt.new; do
 	OLDF=`echo $F | sed -e "s/.txt.new/.txt/g"`
 	rm "$OLDF"
 	mv "$F" "$OLDF"
-    done
+      done
+    fi
     
     export OKCOUNT FAILCOUNT
 }

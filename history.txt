@@ -49,6 +49,13 @@ todo:
 	- want: alerting: send alerts on ALERT only (escalation)
 	- want: webviews: SLA reports, downtimes/availability
 
+v15.6.11
+    Volker Tanger <volker.tanger@wyae.de>
+	* bugfix: ArchlinuxUpdatesAvailable uses different tool:
+	  changed from pacupdatescheck to checkupdates in mosshe_hourly
+	* bugfix: navigated around the annoying $WWWDIR/srv_*.txt.new
+	  not found bug when there is no server info.
+
 v15.4.25
     Volker Tanger <volker.tanger@wyae.de>
 	* feaure: added ArchlinuxUpdatesAvailable check 
