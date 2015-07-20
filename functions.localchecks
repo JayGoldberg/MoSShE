@@ -75,18 +75,36 @@ function DebianUpdatesAvailable () {
 }
 
 #---------------------------------------------------------
-# FedoraUpdatesAvailable - if true alert; if false ok
+# FedoraYumUpdatesAvailable - if true alert; if false ok
 #---------------------------------------------------------
-function FedoraUpdatesAvailable () {
-    MossheLog "FedoraUpdatesAvailable"
+function FedoraYumUpdatesAvailable () {
+    MossheLog "FedoraYumUpdatesAvailable"
     if [ -x /etc/cron.hourly/mosshe_hourly ]; then
-        if [ -s /tmp/mosshe.FedoraUpdatesAvailable ]; then
-            echo "${DATIM};$MYGROUP;$MYNAME;FedoraUpdates;WARN;2;Fedora updates are available" >> $TEMPDIR/tmp.$$.collected.tmp
+        if [ -s /tmp/mosshe.FedoraYumUpdatesAvailable ]; then
+            echo "${DATIM};$MYGROUP;$MYNAME;FedoraYumUpdates;WARN;2;Fedora updates are available" >> $TEMPDIR/tmp.$$.collected.tmp
         else
-            echo "${DATIM};$MYGROUP;$MYNAME;FedoraUpdates;OK;0;Your Fedora is up to date" >> $TEMPDIR/tmp.$$.collected.tmp
+            echo "${DATIM};$MYGROUP;$MYNAME;FedoraYumUpdates;OK;0;Your Fedora is up to date" >> $TEMPDIR/tmp.$$.collected.tmp
         fi
     else
-        echo "${DATIM};$MYGROUP;$MYNAME;FedoraUpdates;UNDEF;1;Fedora updates need hourly check - which is missing" >> $TEMPDIR/tmp.$$.collected.tmp
+        echo "${DATIM};$MYGROUP;$MYNAME;FedoraYumUpdates;UNDEF;1;Fedora updates need hourly check - which is missing" >> $TEMPDIR/tmp.$$.collected.tmp
+    fi
+}
+
+
+
+#---------------------------------------------------------
+# FedoraDnfUpdatesAvailable - if true alert; if false ok
+#---------------------------------------------------------
+function FedoraDnfUpdatesAvailable () {
+    MossheLog "FedoraDnfUpdatesAvailable"
+    if [ -x /etc/cron.hourly/mosshe_hourly ]; then
+        if [ -s /tmp/mosshe.FedoraDnfUpdatesAvailable ]; then
+            echo "${DATIM};$MYGROUP;$MYNAME;FedoraDnfUpdates;WARN;2;Fedora updates are available" >> $TEMPDIR/tmp.$$.collected.tmp
+        else
+            echo "${DATIM};$MYGROUP;$MYNAME;FedoraDnfUpdates;OK;0;Your Fedora is up to date" >> $TEMPDIR/tmp.$$.collected.tmp
+        fi
+    else
+        echo "${DATIM};$MYGROUP;$MYNAME;FedoraDnfUpdates;UNDEF;1;Fedora updates need hourly check - which is missing" >> $TEMPDIR/tmp.$$.collected.tmp
     fi
 }
 

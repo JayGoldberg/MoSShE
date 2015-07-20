@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------
-      			MoSShE  v15.6.11
+      			MoSShE  v15.7.20
  	   2003-2015 by Volker Tanger <volker.tanger@wyae.de>
 -----------------------------------------------------------------------
 
@@ -143,7 +143,9 @@ DaysUpCheck		notify of recent reboot
 
 DebianUpdatesAvailable	status whether updates are available (debian) 
 			needs hourly cron job - included in the TAR
-FedoraUpdatesAvailable	status whether updates are available (debian) 
+FedoraYumUpdatesAvailable	status whether updates are available (yum) 
+			needs hourly cron job - included in the TAR
+FedoraDnfUpdatesAvailable	status whether updates are available (dnf) 
 			needs hourly cron job - included in the TAR
 ArchlinuxUpdatesAvailable	status whether updates are available (debian) 
 			needs hourly cron job - included in the TAR

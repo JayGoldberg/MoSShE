@@ -49,6 +49,13 @@ todo:
 	- want: alerting: send alerts on ALERT only (escalation)
 	- want: webviews: SLA reports, downtimes/availability
 
+v15.7.20
+    !!! FedoraUpdatesAvailable split into pre-21 and post-22
+    Volker Tanger <volker.tanger@wyae.de>
+	* feature: 
+		FeduraYumUpdatesAvailable - for Fedora 21 and prior
+		FeduraDnfUpdatesAvailable - fpr Fedora 22 and later
+
 v15.6.11
     Volker Tanger <volker.tanger@wyae.de>
 	* bugfix: ArchlinuxUpdatesAvailable uses different tool:
