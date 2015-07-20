@@ -11,7 +11,7 @@ rm /tmp/mosshe.DebianUpdatesAvailable.$$   2> /dev/null
 yum check-update | tail -n +2 > /tmp/mosshe.FedoraYumUpdatesAvailable  2> /dev/null
 
 # FedoraDnfUpdatesAvailable
-usr/bin/dnf check-update | tail -n +2 > /tmp/mosshe.FedoraDnfUpdatesAvailable  2> /dev/null
+dnf check-update | tail -n +2 > /tmp/mosshe.FedoraDnfUpdatesAvailable  2> /dev/null
 
 # ArchlinuxUpdatesAvailable
 updatescheck > /tmp/mosshe.ArchlinuxUpdatesAvailable  2> /dev/null
