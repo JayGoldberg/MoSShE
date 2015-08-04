@@ -980,6 +980,89 @@ function RaidCheck () {
     fi
 }
 
+#---------------------------------------------------------
+# ApcUpsValueTooLow:  KEY warnvalue alertvalue
+#---------------------------------------------------------
+
+function ApcUpsValueTooLow () {
+    MossheLog "ApcUpsValueLow $1 $2 $3"
+    KEY=$1
+    typeset -i WARNVAL=$2
+    typeset -i ALERTVAL=$3
+
+    if [ -z `which apcaccess` ]; then
+        echo "${DATIM};$MYGROUP;$MYNAME;ApcUpsValueTooLow_$KEY;UNDEF;0;APCACCESS not installed - cannot perform APC UPS health check" >> $TEMPDIR/tmp.$$.col$
+    else
+        typeset -i VALUE=`apcaccess | fgrep $KEY | cut -d ':' -f 2 | cut -d ' ' -f 2 | cut -d '.' -f 1`
+        if [ "$VALUE" -lt $ALERTVAL ]; then
+            STATUS="ALERT"
+            MESSAGE="APC parameter $KEY = $VALUE critically low"
+        elif [ "$VALUE" -lt $WARNVAL ]; then
+            STATUS="WARN"
+            MESSAGE="APC parameter $KEY = $VALUE too low"
+        else
+            STATUS="OK"
+            MESSAGE="APC parameter $KEY ok : $VALUE"
+        fi
+        echo "${DATIM};$MYGROUP;$MYNAME;ApcUpsValueTooLow_$KEY;${STATUS};${VALUE};$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
+    fi
+}
+
+
+#---------------------------------------------------------
+# ApcUpsValueTooHigh:  KEY warnvalue alertvalue
+#---------------------------------------------------------
+
+function ApcUpsValueTooHigh () {
+    MossheLog "ApcUpsValueTooHigh $1 $2 $3"
+    KEY=$1
+    typeset -i WARNVAL=$2
+    typeset -i ALERTVAL=$3
+
+    if [ -z `which apcaccess` ]; then
+        echo "${DATIM};$MYGROUP;$MYNAME;ApcUpsValueTooHigh_$KEY;UNDEF;0;APCACCESS not installed - cannot perform APC UPS health check" >> $TEMPDIR/tmp.$$.co$
+    else
+        typeset -i VALUE=`apcaccess | fgrep $KEY | cut -d ':' -f 2 | cut -d ' ' -f 2 | cut -d '.' -f 1`
+        if [ "$VALUE" -gt $ALERTVAL ]; then
+            STATUS="ALERT"
+            MESSAGE="APC parameter $KEY = $VALUE critically high"
+        elif [ "$VALUE" -gt $WARNVAL ]; then
+            STATUS="WARN"
+            MESSAGE="APC parameter $KEY = $VALUE too high"
+        else
+            STATUS="OK"
+            MESSAGE="APC parameter $KEY ok : $VALUE"
+        fi
+        echo "${DATIM};$MYGROUP;$MYNAME;ApcUpsValueTooHigh_$KEY;${STATUS};${VALUE};$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
+    fi
+}
+
+#---------------------------------------------------------
+# ApcUpsStatus:  KEY compare
+#---------------------------------------------------------
+
+function ApcUpsStatus () {
+    MossheLog "ApcUpsValueTooHigh $1 $2 $3"
+    KEY=$1
+    MATCH=$2
+
+    if [ -z `which apcaccess` ]; then
+        echo "${DATIM};$MYGROUP;$MYNAME;ApcUpsStatus_$KEY;UNDEF;0;APCACCESS not installed - cannot perform APC UPS health check" >> $TEMPDIR/tmp.$$.collecte$
+    else
+        VALUE=`apcaccess | fgrep $KEY| cut -d ':' -f 2 | cut -d ' ' -f 2`
+        if [ "$VALUE" = $MATCH ]; then
+            STATUS="OK"
+            MESSAGE="APC parameter $KEY ok : $VALUE"
+        else
+            STATUS="ALERT"
+            MESSAGE="APC parameter $KEY in critical state: $VALUE"
+        fi
+	echo "${DATIM};$MYGROUP;$MYNAME;ApcUpsStatus_$KEY;${STATUS};${VALUE};$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
+    fi
+}
+
+
+
 													  
 ################################################################
 ###  Network

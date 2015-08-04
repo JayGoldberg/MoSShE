@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------
-      			MoSShE  v15.7.20
+      			MoSShE  v15.8.4
  	   2003-2015 by Volker Tanger <volker.tanger@wyae.de>
 -----------------------------------------------------------------------
 
@@ -60,6 +60,7 @@ for single checks only if performed:
 	* "smartctl" (smartmontools) for HD health checks
 	* "tw_cli" from 3ware (now: LSI) for Raid3ware checks
 	* "mysqladm" for MySQL checks
+	* "apcaccess" for UPS checks
 	
 for web interface:
 	* webserver - which can server static files (= nearly any)
@@ -194,6 +195,10 @@ SmartMonHealth		health status of hard discs (reads test state)
 HDhardwareSmart		alerts on hardware failure counters
 Raid3ware		OK status of 3ware RAID controllers
 RaidCheck		checks md0 RAID  (WARN=syncing, ALERT=fail)
+
+ApcUpsValueTooHigh	checks UPS health if a value is too high
+ApcUpsValueTooLow	checks UPS health if a value is too low
+ApcUpsStatus		checks UPS health if a value is requivalent to
 
 LogEntryCheck		maximum number of message matches in logfiles
 			(used to check for bruteforcing, see examples in MOSSHE)

@@ -81,6 +81,12 @@ HardwareSensorBetween "fan1" "CPU Fan description" 100 3000
 HardwareSensor "temp1" "probably harddrive temperature" 45 60
 
 
+ApcUpsValueTooHigh LOADPCT 39 80	# pulling too much juice from UPS?
+ApcUpsValueTooLow BCHARGE 30 90		# battery up to snuff?
+ApcUpsValueTooLow TIMELEFT 2 5		# enough minutes left to run?
+ApcUpsStatus STATUS ONLINE 		# status ok?
+
+
 # check ClamAV-Daemon which likes to crash
 FileCheck /var/run/clamav/clamd.ctl
 ProcCheck /usr/sbin/clamd

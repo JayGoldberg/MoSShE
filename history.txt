@@ -44,10 +44,17 @@ todo:
 	- want: localchecks, disk usage of single directory	  
 	- want: localchecks, disk usage of subdirectories ("quota")
 	- want: localchecks, number of users (via "w" command)
-	- want: localchecks, UPC data via apcaccess
 	- want: alerting: IM via Jabber
 	- want: alerting: send alerts on ALERT only (escalation)
 	- want: webviews: SLA reports, downtimes/availability
+
+v15.7.20
+    Volker Tanger <volker.tanger@wyae.de>
+	* feature: checking locally monitored APC UPS
+		ApcUpsValueTooHigh
+		ApcUpsValueTooLow
+		ApcUpsStatus
+
 
 v15.7.20
     !!! FedoraUpdatesAvailable split into pre-21 and post-22
