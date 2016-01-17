@@ -1,0 +1,164 @@
+#!/bin/sh
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#
+# 	function library - please call with external script
+#
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+#############################################################################
+# MoSSHe: remote server monitoring environment
+#
+# Copyright (C) 2013- Volker Tanger
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# For bug reports and suggestions or if you just want to talk to me please
+# contact me at volker.tanger@wyae.de
+#
+# Updates will be available at  http://www.wyae.de/software/mosshe/
+# please check there for updates prior to submitting patches!
+#
+# For list of changes please refer to the HISTORY file. Thanks.
+#############################################################################
+
+
+
+#############################################################################
+# Postfix checks - functions below
+#############################################################################
+
+
+#---------------------------------------------------------
+# PostfixOutTLS - WARN ALERT
+#---------------------------------------------------------
+function PostfixOutTLS () {
+    MossheLog "PostfixOutTLS $1 $2"
+    typeset -i ALERT WARN VALUE  RTN
+    WARN=$1
+    ALERT=$2
+    if [ -x /usr/bin/journalctl ]; then
+	VALUE=`journalctl --since "5 minute ago" -u postfix | fgrep 'postfix/smtp '| fgrep 'TLS connection established from ' | wc -l`
+	if [ "$VALUE" -gt "$ALERT" ]; then 
+	    STATUS="ALERT"
+	    MESSAGE="Excessive TLS connections for Postfix $MYGROUP: $MYNAME "
+	elif [ "$VALUE" -gt "$WARN" ]; then 
+	    STATUS="WARN"
+	    MESSAGE="High number of TLS connections for Postfix $MYGROUP: $MYNAME "
+	else
+	    MESSAGE="Normal TLS connection rate by Postfix $MYGROUP: $MYNAME "
+	fi
+	echo "${DATIM};$MYGROUP;$MYNAME;PostfixOutTLS;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
+    else
+        echo "${DATIM};$MYGROUP;$MYNAME;PostfixOutTLS;-5;not a SYSTEMD system" >> $TEMPDIR/tmp.$$.collected.tmp				
+    fi
+}
+
+
+#---------------------------------------------------------
+# PostfixInTLS - WARN ALERT
+#---------------------------------------------------------
+function PostfixInTLS () {
+    MossheLog "PostfixInTLS $1 $2"
+    typeset -i ALERT WARN VALUE  RTN
+    WARN=$1
+    ALERT=$2
+    if [ -x /usr/bin/journalctl ]; then
+	VALUE=`journalctl --since "5 minute ago" -u postfix | fgrep 'postfix/smtpd '| fgrep 'TLS connection established from ' | wc -l`
+	if [ "$VALUE" -gt "$ALERT" ]; then 
+	    STATUS="ALERT"
+	    MESSAGE="Excessive TLS connections for Postfix $MYGROUP: $MYNAME "
+	elif [ "$VALUE" -gt "$WARN" ]; then 
+	    STATUS="WARN"
+	    MESSAGE="High number of TLS connections for Postfix $MYGROUP: $MYNAME "
+	else
+	    MESSAGE="Normal TLS connection rate by Postfix $MYGROUP: $MYNAME "
+	fi
+	echo "${DATIM};$MYGROUP;$MYNAME;PostfixInTLS;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
+    else
+        echo "${DATIM};$MYGROUP;$MYNAME;PostfixInTLS;-5;not a SYSTEMD system" >> $TEMPDIR/tmp.$$.collected.tmp				
+    fi
+}
+
+
+#---------------------------------------------------------
+# PostfixInConnections - WARN ALERT
+#---------------------------------------------------------
+function PostfixInConnections () {
+    MossheLog "PostfixInConnections $1 $2"
+    typeset -i ALERT WARN VALUE  RTN
+    WARN=$1
+    ALERT=$2
+    if [ -x /usr/bin/journalctl ]; then
+	VALUE=`journalctl --since "5 minute ago" -u postfix | fgrep ' connect from ' | wc -l`
+	if [ "$VALUE" -gt "$ALERT" ]; then 
+	    STATUS="ALERT"
+	    MESSAGE="Excessive connections for Postfix $MYGROUP: $MYNAME "
+	elif [ "$VALUE" -gt "$WARN" ]; then 
+	    STATUS="WARN"
+	    MESSAGE="High number of connections for Postfix $MYGROUP: $MYNAME "
+	else
+	    MESSAGE="Normal connection rate by Postfix $MYGROUP: $MYNAME "
+	fi
+	echo "${DATIM};$MYGROUP;$MYNAME;PostfixInConnections;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
+    else
+        echo "${DATIM};$MYGROUP;$MYNAME;PostfixInConnections;-5;not a SYSTEMD system" >> $TEMPDIR/tmp.$$.collected.tmp				
+    fi
+}
+
+
+#---------------------------------------------------------
+# PostfixNoqueue - WARN ALERT
+#---------------------------------------------------------
+function PostfixNoqueue () {
+    MossheLog "PostfixNoqueue $1 $2"
+    typeset -i ALERT WARN VALUE  RTN
+    WARN=$1
+    ALERT=$2
+    if [ -x /usr/bin/journalctl ]; then
+	VALUE=`journalctl --since "5 minute ago" -u postfix | fgrep ' NOQUEUE: reject: ' | wc -l`
+	if [ "$VALUE" -gt "$ALERT" ]; then 
+	    STATUS="ALERT"
+	    MESSAGE="Excessive rejections by Postfix $MYGROUP: $MYNAME "
+	elif [ "$VALUE" -gt "$WARN" ]; then 
+	    STATUS="WARN"
+	    MESSAGE="High number of rejections by Postfix $MYGROUP: $MYNAME "
+	else
+	    MESSAGE="Normal rejection rate by Postfix $MYGROUP: $MYNAME "
+	fi
+	echo "${DATIM};$MYGROUP;$MYNAME;PostfixNoqueue;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
+    else
+        echo "${DATIM};$MYGROUP;$MYNAME;PostfixNoqueue;-5;not a SYSTEMD system" >> $TEMPDIR/tmp.$$.collected.tmp				
+    fi
+}
+
+#---------------------------------------------------------
+# PostfixSent - WARN ALERT
+#---------------------------------------------------------
+function PostfixSent () {
+    MossheLog "PostfixSent $1 $2"
+    typeset -i ALERT WARN VALUE  RTN
+    WARN=$1
+    ALERT=$2
+    if [ -x /usr/bin/journalctl ]; then
+	VALUE=`journalctl --since "5 minute ago" -u postfix | fgrep postfix/smtp | fgrep ' status=sent' | wc -l`
+	if [ "$VALUE" -gt "$ALERT" ]; then 
+	    STATUS="ALERT"
+	    MESSAGE="Excessive mail sending rate by Postfix $MYGROUP: $MYNAME "
+	elif [ "$VALUE" -gt "$WARN" ]; then 
+	    STATUS="WARN"
+	    MESSAGE="High number of mails sent by Postfix $MYGROUP: $MYNAME "
+	else
+	    MESSAGE="Normal mail sending rate by Postfix $MYGROUP: $MYNAME "
+	fi
+	echo "${DATIM};$MYGROUP;$MYNAME;PostfixSent;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
+    else
+        echo "${DATIM};$MYGROUP;$MYNAME;PostfixSent;-5;not a SYSTEMD system" >> $TEMPDIR/tmp.$$.collected.tmp				
+    fi
+}
+
+
+#############################################################################

@@ -99,9 +99,6 @@ FileTooBig /var/log/auth 500 	# file bigger than 9.000 KBytes (= 9 MB)
 FileTooBig /var/log/syslog 9000 # file bigger than 9.000 KBytes (= 9 MB)
 
 
-MailqCheck 20 60
-
-
 # LogEntryCheck HTTPbruteforce	' 401 ' '/var/log/apache/*access.log' 100 200		# make sure we don't get HTTP bruteforced
 # LogEntryCheck HTTPbruteforce	' 401 ' '/var/log/lighttpd/*access.log' 700 1000		# make sure we don't get HTTP bruteforced
 LogEntryCheck ImapBruteforce	'authdaemond: pam_unix(imap:auth): authentication failure' /var/log/auth.log 10 50     	# we don't like IMAP/Webmail bruteforcing either
@@ -215,6 +212,24 @@ MySQLThreads 30 90
 MySQLQueries 10 50
 
 
+
+#=========================================================
+# Mail checks - per last 5 minutes
+#=========================================================
+. $DATADIR/functions.postfix
+. $DATADIR/functions.dovecot
+
+MailqCheck 10 40
+
+PostfixOutTLS 10 50
+PostfixInTLS 10 50
+PostfixInConnections 10 50
+PostfixNoqueue 10 50
+PostfixSent 10 50
+
+DovecotStored 10 50
+DovecotSieved 10 50
+DovecotLoginFailed 10 50
 
 
 

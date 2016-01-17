@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------
-      			MoSShE  v15.8.4
- 	   2003-2015 by Volker Tanger <volker.tanger@wyae.de>
+      			MoSShE  v16.1.17
+ 	   2003-2016 by Volker Tanger <volker.tanger@wyae.de>
 -----------------------------------------------------------------------
 
 MoSShE (MOnitoring in Simple SHell Environment) is a simple,
@@ -61,6 +61,7 @@ for single checks only if performed:
 	* "tw_cli" from 3ware (now: LSI) for Raid3ware checks
 	* "mysqladm" for MySQL checks
 	* "apcaccess" for UPS checks
+	* postfix and dovecot checks only work on SYSTEMD systems
 	
 for web interface:
 	* webserver - which can server static files (= nearly any)
@@ -242,8 +243,23 @@ DNSmatch		checks a DNS response against expected value
 # MySQL Checks
 #=========================================================
 
-MySQLThreads		number of Threads running
+MySQLThreads		number of Threads running 
 MySQLQueries		number of Queries/second
+
+
+#=========================================================
+# Mail checks - all per the last 5 minutes (WARN/ALERT)
+#=========================================================
+
+PostfixOutTLS 		number of outgoing TLS connections
+PostfixInTLS 		number of incoming TLS connections
+PostfixInConnections 	number of outgoing connections
+PostfixNoqueue 		number of rejected incoming mails
+PostfixSent 		number of sent mails
+
+DovecotStored 		number of mails stored by dovecot without sieve
+DovecotSieved 		number of mails handled by sieve
+DovecotLoginFailed	number of failed logins
 
 
 #=========================================================
