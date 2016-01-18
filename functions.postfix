@@ -41,7 +41,7 @@ function PostfixOutTLS () {
     WARN=$1
     ALERT=$2
     if [ -x /usr/bin/journalctl ]; then
-	VALUE=`journalctl --since "5 minute ago" -u postfix | fgrep 'postfix/smtp '| fgrep 'TLS connection established from ' | wc -l`
+	VALUE=`journalctl --since "5 minute ago" -u postfix | fgrep postfix/smtp[ | fgrep 'TLS connection established to ' | wc -l`
 	if [ "$VALUE" -gt "$ALERT" ]; then 
 	    STATUS="ALERT"
 	    MESSAGE="Excessive TLS connections for Postfix $MYGROUP: $MYNAME "
@@ -67,7 +67,7 @@ function PostfixInTLS () {
     WARN=$1
     ALERT=$2
     if [ -x /usr/bin/journalctl ]; then
-	VALUE=`journalctl --since "5 minute ago" -u postfix | fgrep 'postfix/smtpd '| fgrep 'TLS connection established from ' | wc -l`
+	VALUE=`journalctl --since "5 minute ago" -u postfix | fgrep postfix/smtpd | fgrep 'TLS connection established from ' | wc -l`
 	if [ "$VALUE" -gt "$ALERT" ]; then 
 	    STATUS="ALERT"
 	    MESSAGE="Excessive TLS connections for Postfix $MYGROUP: $MYNAME "

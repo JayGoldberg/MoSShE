@@ -48,6 +48,10 @@ todo:
 	- want: alerting: send alerts on ALERT only (escalation)
 	- want: webviews: SLA reports, downtimes/availability
 
+v16.1.18
+    Volker Tanger <volker.tanger@wyae.de>
+	* bugfix: corrected TLS counting - a space on the wrong place...
+
 v16.1.17
     Volker Tanger <volker.tanger@wyae.de>
 	* feature: postfix and dovecot checks
