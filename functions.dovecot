@@ -95,12 +95,12 @@ function DovecotLoginFailed () {
 	VALUE=`journalctl --since "5 minute ago" -u dovecot | fgrep ' imap-login: Disconnected (auth failed, ' | wc -l`
 	if [ "$VALUE" -gt "$ALERT" ]; then 
 	    STATUS="ALERT"
-	    MESSAGE="Excessive mails sieved for Dovecot $MYGROUP: $MYNAME "
+	    MESSAGE="Excessive failed logins for Dovecot $MYGROUP: $MYNAME "
 	elif [ "$VALUE" -gt "$WARN" ]; then 
 	    STATUS="WARN"
-	    MESSAGE="High number of sieved mails for Dovecot $MYGROUP: $MYNAME "
+	    MESSAGE="High number of failed logins for Dovecot $MYGROUP: $MYNAME "
 	else
-	    MESSAGE="Normal number of sieved mail by Dovecot $MYGROUP: $MYNAME "
+	    MESSAGE="Normal number failed logins by Dovecot $MYGROUP: $MYNAME "
 	fi
 	echo "${DATIM};$MYGROUP;$MYNAME;DovecotLoginFailed;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
     else

@@ -3,6 +3,8 @@ Lightweight, secure server monitoring
 
 2003- by Volker Tanger <volker.tanger@wyae.de>
 
+homepage with screenshots: http://www.wyae.de/software/mosshe/
+
 MoSShE (MOnitoring in Simple SHell Environment) is a simple,
 lightweight (both in size and system requirements) server monitoring
 package designed for secure and in-depth monitoring of single or
@@ -39,4 +41,4 @@ transfer. Additionally each agent creates simple (static) HTML pages
 with full and condensed status reports on each system, allowing simple
 local checks.
 
-# For details pleas eee the README.txt
+# For details please see the README.txt
