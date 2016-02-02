@@ -49,6 +49,7 @@ function DovecotStored () {
 	    STATUS="WARN"
 	    MESSAGE="High number of stored mails for Dovecot $MYGROUP: $MYNAME "
 	else
+	    STATUS="OK"
 	    MESSAGE="Normal number of stored mail by Dovecot $MYGROUP: $MYNAME "
 	fi
 	echo "${DATIM};$MYGROUP;$MYNAME;DovecotStored;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
@@ -74,6 +75,7 @@ function DovecotSieved () {
 	    STATUS="WARN"
 	    MESSAGE="High number of sieved mails for Dovecot $MYGROUP: $MYNAME "
 	else
+	    STATUS="OK"
 	    MESSAGE="Normal number of sieved mail by Dovecot $MYGROUP: $MYNAME "
 	fi
 	echo "${DATIM};$MYGROUP;$MYNAME;DovecotSieved;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
@@ -100,6 +102,7 @@ function DovecotLoginFailed () {
 	    STATUS="WARN"
 	    MESSAGE="High number of failed logins for Dovecot $MYGROUP: $MYNAME "
 	else
+	    STATUS="OK"
 	    MESSAGE="Normal number failed logins by Dovecot $MYGROUP: $MYNAME "
 	fi
 	echo "${DATIM};$MYGROUP;$MYNAME;DovecotLoginFailed;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp

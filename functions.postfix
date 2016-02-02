@@ -49,6 +49,7 @@ function PostfixOutTLS () {
 	    STATUS="WARN"
 	    MESSAGE="High number of TLS connections for Postfix $MYGROUP: $MYNAME "
 	else
+	    STATUS="OK"
 	    MESSAGE="Normal TLS connection rate by Postfix $MYGROUP: $MYNAME "
 	fi
 	echo "${DATIM};$MYGROUP;$MYNAME;PostfixOutTLS;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
@@ -75,6 +76,7 @@ function PostfixInTLS () {
 	    STATUS="WARN"
 	    MESSAGE="High number of TLS connections for Postfix $MYGROUP: $MYNAME "
 	else
+	    STATUS="OK"
 	    MESSAGE="Normal TLS connection rate by Postfix $MYGROUP: $MYNAME "
 	fi
 	echo "${DATIM};$MYGROUP;$MYNAME;PostfixInTLS;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
@@ -101,6 +103,7 @@ function PostfixInConnections () {
 	    STATUS="WARN"
 	    MESSAGE="High number of connections for Postfix $MYGROUP: $MYNAME "
 	else
+	    STATUS="OK"
 	    MESSAGE="Normal connection rate by Postfix $MYGROUP: $MYNAME "
 	fi
 	echo "${DATIM};$MYGROUP;$MYNAME;PostfixInConnections;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
@@ -127,6 +130,7 @@ function PostfixNoqueue () {
 	    STATUS="WARN"
 	    MESSAGE="High number of rejections by Postfix $MYGROUP: $MYNAME "
 	else
+	    STATUS="OK"
 	    MESSAGE="Normal rejection rate by Postfix $MYGROUP: $MYNAME "
 	fi
 	echo "${DATIM};$MYGROUP;$MYNAME;PostfixNoqueue;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
@@ -152,6 +156,7 @@ function PostfixSent () {
 	    STATUS="WARN"
 	    MESSAGE="High number of mails sent by Postfix $MYGROUP: $MYNAME "
 	else
+	    STATUS="OK"
 	    MESSAGE="Normal mail sending rate by Postfix $MYGROUP: $MYNAME "
 	fi
 	echo "${DATIM};$MYGROUP;$MYNAME;PostfixSent;$STATUS;$VALUE;$MESSAGE" >> $TEMPDIR/tmp.$$.collected.tmp
