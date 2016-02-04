@@ -48,6 +48,19 @@ todo:
 	- want: alerting: send alerts on ALERT only (escalation)
 	- want: webviews: SLA reports, downtimes/availability
 
+v16.2.4
+    Volker Tanger <volker.tanger@wyae.de>
+	* bugfix: (crude) fix against network traffic counter rollover
+
+v16.2.2
+    Volker Tanger <volker.tanger@wyae.de>
+	* bugfix: dovecot+postfix checks were missing "OK" status to be set
+	  	resulting in wrong status (but correct message) - fixed
+
+v16.1.20
+    Volker Tanger <volker.tanger@wyae.de>
+	* bugfix: typo in README.md + wrong description in DovecotLoginFailed
+
 v16.1.18
     Volker Tanger <volker.tanger@wyae.de>
 	* bugfix: corrected TLS counting - a space on the wrong place...

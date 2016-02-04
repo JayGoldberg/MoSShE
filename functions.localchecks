@@ -1141,7 +1141,8 @@ function NetworkTrafficCheck () {
     typeset -i RX=`echo $STAT | cut -d ":" -f 2 | cut -d " " -f 1`
     typeset -i TX=`echo $STAT | cut -d ":" -f 3 | cut -d " " -f 1`
     typeset -i TOTAL=$(( RX + TX ))
-    
+    if [ $TOTAL -lt 0 ]; then TOTAL=0; fi       # very crude rollover fix
+
     if ! [ -f $DATADIR/stat.networktraffic.$IFACE ]; then
 	MESSAGE="Initializing network traffic analysis on interface $IFACE"
 	STATUS="UNDEF"
@@ -1187,6 +1188,7 @@ function NetworkBandwidth () {
     typeset -i RX=`echo $STAT | cut -d ":" -f 2 | cut -d " " -f 1`
     typeset -i TX=`echo $STAT | cut -d ":" -f 3 | cut -d " " -f 1`
     typeset -i TOTAL=$(( RX + TX ))
+    if [ $TOTAL -lt 0 ]; then TOTAL=0; fi       # very crude rollover fix
     
     if ! [ -f $DATADIR/stat.networkbandwidth.$IFACE ]; then
 	MESSAGE="Initializing network traffic analysis on interface $IFACE"
@@ -1231,6 +1233,7 @@ function NetworkLinuxTrafficCheck () {
     typeset -i RX=`echo $STAT | cut -d " " -f 2`
     typeset -i TX=`echo $STAT | cut -d ":" -f 10`
     typeset -i TOTAL=$(( RX + TX ))
+    if [ $TOTAL -lt 0 ]; then TOTAL=0; fi       # very crude rollover fix
     
     if ! [ -f $DATADIR/stat.networktraffic.$IFACE ]; then
 	MESSAGE="Initializing network traffic analysis on interface $IFACE"
@@ -1276,6 +1279,7 @@ function NetworkLinuxBandwidth () {
     typeset -i RX=`echo $STAT | cut -d " " -f 2`
     typeset -i TX=`echo $STAT | cut -d ":" -f 10`
     typeset -i TOTAL=$(( RX + TX ))
+    if [ $TOTAL -lt 0 ]; then TOTAL=0; fi       # very crude rollover fix
     
     if ! [ -f $DATADIR/stat.networkbandwidth.$IFACE ]; then
 	MESSAGE="Initializing network traffic analysis on interface $IFACE"
