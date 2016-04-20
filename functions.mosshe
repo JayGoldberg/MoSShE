@@ -132,7 +132,7 @@ function FinalizeLog () {
         echo "MoSShE probably was restarted? Could not find $TEMPDIR/mosshe_collected.newstatus ..."
     fi
     
-    cat $DATADIR/template_head.html \
+    cat $WWWDIR/template_head.html \
     	| sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	| tee $TEMPDIR/mosshe_collected.html \
 	> $TEMPDIR/mosshe_nonokcollected.html
@@ -197,7 +197,7 @@ function FinalizeLog () {
 	| tee -a $TEMPDIR/mosshe_collected.html \
 	>> $TEMPDIR/mosshe_nonokcollected.html
     
-    cat $DATADIR/template_foot.html \
+    cat $WWWDIR/template_foot.html \
     	| sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	| sed -e "s/OKCOUNT/$OKCOUNT/g" \
 	| sed -e "s/FAILCOUNT/$FAILCOUNT/g" \
@@ -233,19 +233,19 @@ function FinalizeLog () {
 #---------------------------------------------------------
 function SortGroups () {
     MossheLog "SortGroups $1"
-    cat $DATADIR/template_head.html \
+    cat $WWWDIR/template_head.html \
     	| sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	> $TEMPDIR/groupcollected.html
     echo '<tr bgcolor="#dddddd" class="border datarowhead"><td><b>Group</b></td><td><b>Alert</b></td><td><b>Warn</b></td><td><b>Ok</b></td><td><b>Undef</b></td></tr>' \
 	>> $TEMPDIR/groupcollected.html
 	
-    cat $DATADIR/template_head.html \
+    cat $WWWDIR/template_head.html \
     	    | sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	    > $TEMPDIR/mosshe.$$.grouphead.tmp
     echo '<tr bgcolor="#dddddd" class="border datarowhead"><td><b>Timestamp</b></td><td><b>Group</b></td><td><b>System</b></td><td><b>Property</b></td><td><b>Status</b></td><td><b>Value</b></td><td><b>Detail</b></td></tr>' \
 	>> $TEMPDIR/mosshe.$$.grouphead.tmp
 
-    cat $DATADIR/template_foot.html \
+    cat $WWWDIR/template_foot.html \
     	| fgrep -v "Totals: <div class=\"ok\">OKCOUNT checks are OK</div> - <div class=\"notok\">FAILCOUNT show problems</div>" \
 	>> $TEMPDIR/mosshe_foot.$$.tmp
 
@@ -303,19 +303,19 @@ function SortGroups () {
     #---------------------------------------------------------
     # SortGroupsExpanded - create per-server pages
     #---------------------------------------------------------
-    cat $DATADIR/template_head.html \
+    cat $WWWDIR/template_head.html \
     	| sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	> $TEMPDIR/servercollected.html
     echo '<tr bgcolor="#dddddd" class="border datarowhead"><td><b>Group</b></td><td><b>Server</b></td><td><b>Alert</b></td><td><b>Warn</b></td><td><b>Ok</b></td><td><b>Undef</b></td></tr>' \
 	>> $TEMPDIR/servercollected.html
 	
-    cat $DATADIR/template_head.html \
+    cat $WWWDIR/template_head.html \
     	    | sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	    > $TEMPDIR/mosshe.$$.serverhead.tmp
     echo '<tr bgcolor="#dddddd" class="border datarowhead"><td><b>Timestamp</b></td><td><b>Group</b></td><td><b>System</b></td><td><b>Property</b></td><td><b>Status</b></td><td><b>Value</b></td><td><b>Detail</b></td></tr>' \
 	>> $TEMPDIR/mosshe.$$.serverhead.tmp
 
-    cat $DATADIR/template_foot.html \
+    cat $WWWDIR/template_foot.html \
     	| fgrep -v "Totals: <div class=\"ok\">OKCOUNT checks are OK</div> - <div class=\"notok\">FAILCOUNT show problems</div>" \
 	>> $TEMPDIR/mosshe_foot.$$.tmp
 
@@ -376,19 +376,19 @@ function SortGroups () {
 #---------------------------------------------------------
 function SortServers () {
     MossheLog "SortServers $1"
-    cat $DATADIR/template_head.html \
+    cat $WWWDIR/template_head.html \
     	| sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	> $TEMPDIR/servercollected.html
     echo '<tr bgcolor="#dddddd" class="border datarowhead"><td><b>Server</b></td><td><b>Alert</b></td><td><b>Warn</b></td><td><b>Ok</b></td><td><b>Undef</b></td></tr>' \
 	>> $TEMPDIR/servercollected.html
 	
-    cat $DATADIR/template_head.html \
+    cat $WWWDIR/template_head.html \
     	    | sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	    > $TEMPDIR/mosshe.$$.serverhead.tmp
     echo '<tr bgcolor="#dddddd"><td><b>Timestamp</b></td><td><b>Group</b></td><td><b>System</b></td><td><b>Property</b></td><td><b>Status</b></td><td><b>Value</b></td><td><b>Detail</b></td></tr>' \
 	>> $TEMPDIR/mosshe.$$.serverhead.tmp
 
-    cat $DATADIR/template_foot.html \
+    cat $WWWDIR/template_foot.html \
     	| fgrep -v "Totals: <div class=\"ok\">OKCOUNT checks are OK</div> - <div class=\"notok\">FAILCOUNT show problems</div>" \
 	>> $TEMPDIR/mosshe_foot.$$.tmp
 
