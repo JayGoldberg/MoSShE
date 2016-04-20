@@ -822,7 +822,7 @@ function MBMonCheck () {
 function HardwareSensor () {      # Match  Description  WarnTemp  AlertTemp
     MossheLog "HardwareSensor $1 $2"
     typeset PARAM=$1
-    DESCR=$2
+    DESCR=`echo $2 | sed -e "s/ /_/g"`
     typeset -i WARN=$3
     typeset -i ALERT=$4
 
@@ -852,7 +852,7 @@ function HardwareSensor () {      # Match  Description  WarnTemp  AlertTemp
 function HardwareSensorBetween () {      # Match  Description  AlertLow  WarnHigh
     MossheLog "HardwareSensorBetween $1 $2"
     typeset PARAM=$1
-    DESCR=$2
+    DESCR=`echo $2 | sed -e "s/ /_/g"`
     typeset -i ALERTLOW=$3
     typeset -i WARNHIGH=$4
 

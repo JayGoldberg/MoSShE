@@ -51,6 +51,8 @@ todo:
 v16.4.20
     Volker Tanger <volker.tanger@wyae.de>
 	* refactor: move WWW files to according directory
+	* bugfix: replace space in sensor description with underscore so 
+	  file access works (web interface, averages)
 
 v16.2.4
     Volker Tanger <volker.tanger@wyae.de>
