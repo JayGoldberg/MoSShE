@@ -48,6 +48,10 @@ todo:
 	- want: alerting: send alerts on ALERT only (escalation)
 	- want: webviews: SLA reports, downtimes/availability
 
+v16.4.20
+    Volker Tanger <volker.tanger@wyae.de>
+	* refactor: move WWW files to according directory
+
 v16.2.4
     Volker Tanger <volker.tanger@wyae.de>
 	* bugfix: (crude) fix against network traffic counter rollover
