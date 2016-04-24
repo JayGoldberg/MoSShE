@@ -1152,6 +1152,7 @@ function NetworkTrafficCheck () {
 	
 	typeset -i TRAFPERSEC=$(( (TOTAL - OLDTRAFFIC) / ( NOW - OLDSEC + 1) / 128 ))
 	# 1024 * 8 ))
+        if [ $TRAFPERSEC -lt 0 ]; then TRAFPERSEC=0; fi       # very crude rollover fix
      
 	MESSAGE="Network traffic on interface $IFACE ok: $TRAFPERSEC kbit/sec"
 	STATUS="OK"	     
@@ -1199,6 +1200,7 @@ function NetworkBandwidth () {
 	
 	typeset -i BWPERMONTH=$(( (TOTAL - OLDTRAFFIC) / ( NOW - OLDSEC + 1) / 414 ))
 	# / k1024 / M1024 / G1024 * h3600 * d24 * m30
+        if [ $BWPERMONTH -lt 0 ]; then BWPERMONTH=0; fi       # very crude rollover fix
      
 	MESSAGE="Bandwidth usage on interface $IFACE ok: $BWPERMONTH  GB/month"
 	STATUS="OK"	     
@@ -1243,6 +1245,7 @@ function NetworkLinuxTrafficCheck () {
 	OLDTRAFFIC=`cat $DATADIR/stat.networktraffic.$IFACE | cut -d " " -f 2`
 	
 	typeset -i TRAFPERSEC=$(( (TOTAL - OLDTRAFFIC) / ( NOW - OLDSEC + 1) / 128 ))
+        if [ $TRAFPERSEC -lt 0 ]; then TRAFPERSEC=0; fi       # very crude rollover fix
      
 	MESSAGE="Network traffic on interface $IFACE ok: $TRAFPERSEC kbit/sec"
 	STATUS="OK"	     
@@ -1290,6 +1293,7 @@ function NetworkLinuxBandwidth () {
 	
 	typeset -i BWPERMONTH=$(( (TOTAL - OLDTRAFFIC) / ( NOW - OLDSEC + 1) / 414 ))
 	# / k1024 / M1024 / G1024 * h3600 * d24 * m30
+        if [ $BWPERMONTH -lt 0 ]; then BWPERMONTH=0; fi       # very crude rollover fix
      
 	MESSAGE="Bandwidth usage on interface $IFACE ok: $BWPERMONTH  GB/month"
 	STATUS="OK"	     
