@@ -35,7 +35,7 @@
 #---------------------------------------------------------
 # DovecotStored - WARN ALERT
 #---------------------------------------------------------
-function DovecotStored () {
+DovecotStored () {
     MossheLog "DovecotStored $1 $2"
     typeset -i ALERT WARN VALUE  RTN
     WARN=$1
@@ -61,7 +61,7 @@ function DovecotStored () {
 #---------------------------------------------------------
 # DovecotSieved - WARN ALERT
 #---------------------------------------------------------
-function DovecotSieved () {
+DovecotSieved () {
     MossheLog "DovecotSieved $1 $2"
     typeset -i ALERT WARN VALUE  RTN
     WARN=$1
@@ -88,7 +88,7 @@ function DovecotSieved () {
 #---------------------------------------------------------
 # DovecotLoginFailed - WARN ALERT
 #---------------------------------------------------------
-function DovecotLoginFailed () {
+DovecotLoginFailed () {
     MossheLog "DovecotLoginFailed $1 $2"
     typeset -i ALERT WARN VALUE  RTN
     WARN=$1
