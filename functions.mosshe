@@ -50,7 +50,7 @@ MOSSHELOG=`date +"${TEMPDIR}/mosshelog_%Y-%m-%d_%Hh%M"`
 if [ -z "$MYGROUP" ]; then
     LEVELS=$(echo "$MYDOM" | grep -o '\.' | wc -l)
     LEVELS=$(( LEVELS - 1 ))
-    for ((i=1; i<=$LEVELS; i++)); do
+    for i in $(seq 1 $LEVELS); do
         MYGROUP=$([ `which dnstxt` ] && dnstxt mygroup.$(echo $MYDOM | cut -d. -f $i-))
         [ "$MYGROUP" ] && break
     done
