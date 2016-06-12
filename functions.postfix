@@ -35,7 +35,7 @@
 #---------------------------------------------------------
 # PostfixOutTLS - WARN ALERT
 #---------------------------------------------------------
-function PostfixOutTLS () {
+PostfixOutTLS () {
     MossheLog "PostfixOutTLS $1 $2"
     typeset -i ALERT WARN VALUE  RTN
     WARN=$1
@@ -62,7 +62,7 @@ function PostfixOutTLS () {
 #---------------------------------------------------------
 # PostfixInTLS - WARN ALERT
 #---------------------------------------------------------
-function PostfixInTLS () {
+PostfixInTLS () {
     MossheLog "PostfixInTLS $1 $2"
     typeset -i ALERT WARN VALUE  RTN
     WARN=$1
@@ -89,7 +89,7 @@ function PostfixInTLS () {
 #---------------------------------------------------------
 # PostfixInConnections - WARN ALERT
 #---------------------------------------------------------
-function PostfixInConnections () {
+PostfixInConnections () {
     MossheLog "PostfixInConnections $1 $2"
     typeset -i ALERT WARN VALUE  RTN
     WARN=$1
@@ -116,7 +116,7 @@ function PostfixInConnections () {
 #---------------------------------------------------------
 # PostfixNoqueue - WARN ALERT
 #---------------------------------------------------------
-function PostfixNoqueue () {
+PostfixNoqueue () {
     MossheLog "PostfixNoqueue $1 $2"
     typeset -i ALERT WARN VALUE  RTN
     WARN=$1
@@ -142,7 +142,7 @@ function PostfixNoqueue () {
 #---------------------------------------------------------
 # PostfixSent - WARN ALERT
 #---------------------------------------------------------
-function PostfixSent () {
+PostfixSent () {
     MossheLog "PostfixSent $1 $2"
     typeset -i ALERT WARN VALUE  RTN
     WARN=$1

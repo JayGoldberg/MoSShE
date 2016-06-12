@@ -38,7 +38,7 @@
 #---------------------------------------------------------
 # MySQLThreads WARN ALERT
 #---------------------------------------------------------
-function MySQLThreads () {
+MySQLThreads () {
     MossheLog "MySQLThreads $1 $2"
     typeset -i ALERT WARN VALUE  RTN
     WARN=$1
@@ -73,7 +73,7 @@ function MySQLThreads () {
 #---------------------------------------------------------
 # MySQLQueries WARN ALERT    Queries per second (int)
 #---------------------------------------------------------
-function MySQLQueries () {
+MySQLQueries () {
     MossheLog "MySQLQueries $1 $2"
     typeset -i ALERT WARN VALUE RTN
     WARN=$1

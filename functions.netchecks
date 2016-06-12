@@ -35,7 +35,7 @@
 #---------------------------------------------------------
 # PingPartner - FQDN / NumPing / ALERT-Percent / WARN ms roundtrip
 #---------------------------------------------------------
-function PingPartner () {
+PingPartner () {
     MossheLog "PingPartner $1"
     typeset -i ALERTPERC WARNMS VALUE LOSS WAIT
     PARTNER=$1
@@ -73,7 +73,7 @@ function PingPartner () {
 #---------------------------------------------------------
 # Ping6Partner - FQDN / NumPing / ALERT-Percent / WARN ms roundtrip
 #---------------------------------------------------------
-function Ping6Partner () {
+Ping6Partner () {
     MossheLog "PingPartner $1"
     typeset -i ALERTPERC WARNMS VALUE LOSS WAIT
     PARTNER=$1
@@ -111,7 +111,7 @@ function Ping6Partner () {
 #---------------------------------------------------------
 # PingLoss - FQDN / NumPing / PacketLoss% WARN / PacketLoss% ALERT
 #---------------------------------------------------------
-function PingLoss () {
+PingLoss () {
     MossheLog "PingLoss $1"
     typeset -i ALERTPERC WARNPERC VALUE WAIT
     PARTNER=$1
@@ -140,7 +140,7 @@ function PingLoss () {
 #---------------------------------------------------------
 # Ping6Loss - FQDN / NumPing / PacketLoss% WARN / PacketLoss% ALERT
 #---------------------------------------------------------
-function Ping6Loss () {
+Ping6Loss () {
     MossheLog "PingLoss $1"
     typeset -i ALERTPERC WARNPERC VALUE WAIT
     PARTNER=$1
@@ -169,7 +169,7 @@ function Ping6Loss () {
 #---------------------------------------------------------
 # PingTime - FQDN / NumPing / WARN ms roundtrip / ALERT ms roundtrip
 #---------------------------------------------------------
-function PingTime () {
+PingTime () {
     MossheLog "PingTime $1"
     typeset -i ALERTPERC WARNMS VALUE WAIT
     PARTNER=$1
@@ -198,7 +198,7 @@ function PingTime () {
 #---------------------------------------------------------
 # Ping6Time - FQDN / NumPing / WARN ms roundtrip / ALERT ms roundtrip
 #---------------------------------------------------------
-function Ping6Time () {
+Ping6Time () {
     MossheLog "PingTime $1"
     typeset -i ALERTPERC WARNMS VALUE WAIT
     PARTNER=$1
@@ -227,7 +227,7 @@ function Ping6Time () {
 #---------------------------------------------------------
 # ARPing -  FQDN / NumPing / PacketLoss% WARN / PacketLoss% ALERT
 #---------------------------------------------------------
-function ARPing () {
+ARPing () {
     MossheLog "ARPing $1"
     typeset -i ALERTPERC WARNPERC VALUE WAIT
     PARTNER=$1
@@ -262,7 +262,7 @@ function ARPing () {
 #---------------------------------------------------------
 # needs NETCAT command for service check
 
-function TCPing () {
+TCPing () {
     MossheLog "TCPing $1 : $2"
     SRV=$1
     PORT=$2
@@ -294,7 +294,7 @@ function TCPing () {
 #---------------------------------------------------------
 # needs DIG command for DNS lookups
 
-function DNSquery () {
+DNSquery () {
     MossheLog "DNSquery @ $1  $2 $3"
     typeset -i RTNCODE
     DNSSERVER=$1
@@ -322,7 +322,7 @@ function DNSquery () {
 #---------------------------------------------------------
 # needs DIG command for DNS lookups
 
-function DNSmatch () {
+DNSmatch () {
     MossheLog "DNSmatch @$1 $2 $3 = $4"
     typeset -i RTNCODE
     DNSSERVER=$1
@@ -355,7 +355,7 @@ function DNSmatch () {
 # needs LYNX command for web access
 # set lynx.cfg to FORCE_SSL_PROMPT:YES
 
-function HTTPheader () {
+HTTPheader () {
     MossheLog "HTTPheader $1"
     URL=$1
 
@@ -383,7 +383,7 @@ function HTTPheader () {
 # needs LYNX command for web access
 # set lynx.cfg to FORCE_SSL_PROMPT:YES
 
-function HTTPheadermatch () {
+HTTPheadermatch () {
     MossheLog "HTTPheadermatch $2 = $1"
     EXPECTED=$1
     URL=$2
@@ -412,7 +412,7 @@ function HTTPheadermatch () {
 #---------------------------------------------------------
 # needs NETCAT command for service check
 
-function HTTPcontentmatch () {
+HTTPcontentmatch () {
     MossheLog "HTTPcontentmatch $1 = $2"
     URL=$1
     MATCH=$2
@@ -441,7 +441,7 @@ function HTTPcontentmatch () {
 #---------------------------------------------------------
 # needs NETCAT command for service check
 
-function FTPcheck () {
+FTPcheck () {
     MossheLog "FTPcheck $1"
     SRV=$1
 
@@ -470,7 +470,7 @@ function FTPcheck () {
 #---------------------------------------------------------
 # needs NETCAT command for service check
 
-function SSHcheck () {
+SSHcheck () {
     MossheLog "SSHcheck $1 : 2"
     SRV="$1"
     PORT="$2"
@@ -506,7 +506,7 @@ function SSHcheck () {
 #---------------------------------------------------------
 # needs NETCAT command for service check
 
-function POP3check () {
+POP3check () {
     MossheLog "POP3check $1"
     SRV=$1
 
@@ -538,7 +538,7 @@ function POP3check () {
 #---------------------------------------------------------
 # needs NETCAT command for service check
 
-function IMAPcheck () {
+IMAPcheck () {
     MossheLog "IMAPcheck $1"
     SRV=$1
 
@@ -570,7 +570,7 @@ function IMAPcheck () {
 #---------------------------------------------------------
 # needs NETCAT command for service check
 
-function SMTPcheck () {
+SMTPcheck () {
     MossheLog "SMTPcheck $1"
     SRV=$1
 
@@ -599,7 +599,7 @@ function SMTPcheck () {
 #---------------------------------------------------------
 # needs DIG command for service check
 
-function RBLcheckFQDN () {
+RBLcheckFQDN () {
     MossheLog "RBLcheckFQDN $1 @ $2"
     SRV=$1
     RBL=$2
@@ -638,7 +638,7 @@ function RBLcheckFQDN () {
 #---------------------------------------------------------
 # needs DIG command for service check
 
-function RBLcheckIP () {
+RBLcheckIP () {
     MossheLog "RBLcheckIP $1 @ $2"
     SRV=$1
     RBL=$2
@@ -677,7 +677,7 @@ function RBLcheckIP () {
 #---------------------------------------------------------
 # needs SMBCLIENT command for service check
 
-function SAMBAcheck () {
+SAMBAcheck () {
     MossheLog "SAMBAcheck $1"
     IP=$1
 

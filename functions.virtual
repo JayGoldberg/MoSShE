@@ -38,7 +38,7 @@
 #---------------------------------------------------------
 # CheckVserverUp SERVERNAME - returns 
 #---------------------------------------------------------
-function CheckVserverUp () {
+CheckVserverUp () {
   VSRV="$1"    
   MossheLog "CheckVserverUp $VSRV"
   if ! [ -x /usr/sbin/vserver-stat ]; then
@@ -68,7 +68,7 @@ function CheckVserverUp () {
 #---------------------------------------------------------
 # CheckVserverDown SERVERNAME - returns 
 #---------------------------------------------------------
-function CheckVserverDown () {
+CheckVserverDown () {
   VSRV="$1"    
   MossheLog "CheckVserverDown $VSRV"
   if ! [ -x /usr/sbin/vserver-stat ]; then
@@ -97,7 +97,7 @@ function CheckVserverDown () {
 #---------------------------------------------------------
 # VserverLoad SERVERNR SERVERNAME WARN ALERT 
 #---------------------------------------------------------
-function VserverLoad () {
+VserverLoad () {
   VSRV="$1"    
   VSNAM="$2"    
   typeset -i WARN="$3"
@@ -157,7 +157,7 @@ function VserverLoad () {
 #---------------------------------------------------------
 # VZbeancounter RESOURCE %WARN %ALERT
 #---------------------------------------------------------
-function VZbeancounter () {
+VZbeancounter () {
 #	lockedpages, physpages, vmguarpages, oomguarpages
   VRESRC="$1"    
   typeset -i WARN="$2"

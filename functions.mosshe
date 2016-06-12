@@ -61,7 +61,7 @@ MYGROUP=${MYGROUP:-$MYDOM}
 ### 	MoSShE internal functions
 #############################################################################
 
-function MossheLog () {
+MossheLog () {
    date +"%Y-%m-%d %H:%M:%S - $1 " >> $MOSSHELOG
 }
 
@@ -70,7 +70,7 @@ function MossheLog () {
 # Self-Check & Self-Locking - email to admin if in distress
 #---------------------------------------------------------
 
-function MossheSelfCheck () {
+MossheSelfCheck () {
     MossheLog "MossheSelfCheck"
     if [ -z `which mail` ]; then
     	echo "MoSShE: 'mail' command not availabe, cannot send alerts!"
@@ -113,7 +113,7 @@ function MossheSelfCheck () {
 #---------------------------------------------------------
 # FinalizeLog - finalize, cleanup, HTMLize - any parameter to remove HTMLs first
 #---------------------------------------------------------
-function FinalizeLog () {
+FinalizeLog () {
     MossheLog "FinalizeLog $1"
 
     [ "$1" -a "$WWWDIR" ] && rm -f $WWWDIR/*.html
@@ -231,7 +231,7 @@ function FinalizeLog () {
 #---------------------------------------------------------
 # SortGroups - create per-server pages
 #---------------------------------------------------------
-function SortGroups () {
+SortGroups () {
     MossheLog "SortGroups $1"
     cat $WWWDIR/template_head.html \
     	| sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
@@ -374,7 +374,7 @@ function SortGroups () {
 #---------------------------------------------------------
 # SortServers - create per-server pages
 #---------------------------------------------------------
-function SortServers () {
+SortServers () {
     MossheLog "SortServers $1"
     cat $WWWDIR/template_head.html \
     	| sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
@@ -443,7 +443,7 @@ function SortServers () {
 #---------------------------------------------------------
 # ImportAgentCurl URL  -  inport and merge results from other agents
 #---------------------------------------------------------
-function ImportAgentCurl () {
+ImportAgentCurl () {
     MossheLog "ImportAgentCurl $1"
 	URL=$1
 	IMSV=`echo "$URL" | cut -d "/" -f 3 | cut -d ':' -f 1`
@@ -463,7 +463,7 @@ function ImportAgentCurl () {
 #---------------------------------------------------------
 # ImportAgentWget URL  -  inport and merge results from other agents
 #---------------------------------------------------------
-function ImportAgentWget () {
+ImportAgentWget () {
     MossheLog "ImportAgentWget $1"
 	URL=$1
 	IMSV=`echo "$URL" | cut -d "/" -f 3 | cut -d ':' -f 1`
@@ -483,7 +483,7 @@ function ImportAgentWget () {
 #---------------------------------------------------------
 # ImportAgent URL  -  inport and merge results from other agents
 #---------------------------------------------------------
-function ImportAgent () {
+ImportAgent () {
     MossheLog "ImportAgent $1"
     URL=$1
     IMSV=`echo "$URL" | cut -d "/" -f 3 | cut -d ':' -f 1`
@@ -503,7 +503,7 @@ function ImportAgent () {
 #---------------------------------------------------------
 # ImportAgentServerInfo URL  -  inport and merge results from other agents
 #---------------------------------------------------------
-function ImportServerInfo () {
+ImportServerInfo () {
     MossheLog "ImportServerInfo $1"
 	URL=$1
 	IMSV=`echo "$URL" | cut -d "/" -f 3 | cut -d ':' -f 1`
@@ -524,7 +524,7 @@ function ImportServerInfo () {
 #---------------------------------------------------------
 # ReapPassiveChecks  servername  minutes.timeout  filename  -  inport and merge income results from other agents
 #---------------------------------------------------------
-function ReapPassiveChecks () {
+ReapPassiveChecks () {
     MossheLog "ReapPassiveChecks $1"
     SRVNAME=$1
     MAXAGE=$2
@@ -567,7 +567,7 @@ function ReapPassiveChecks () {
 #---------------------------------------------------------
 # AlertMailOnChange  mailaddress
 #---------------------------------------------------------
-function AlertMailOnChange () {
+AlertMailOnChange () {
 MossheLog "AlertMailOnChange $1"
 MAILTO=$1;
 if [ -s $TEMPDIR/mosshe_collected.diff ]; then
@@ -601,7 +601,7 @@ fi
 #---------------------------------------------------------
 # AlertMailOnChangeFor servername  mailaddress  subject
 #---------------------------------------------------------
-function AlertMailOnChangeFor () {
+AlertMailOnChangeFor () {
 MossheLog "AlertMailOnChangeFor srv=$1 to=$2 msg=$3"
 SERVER=$1
 MAILTO=$2
@@ -640,7 +640,7 @@ rm $TEMPDIR/collected_filter.$$.diff
 #---------------------------------------------------------
 # AlertMailAlways  mailaddress
 #---------------------------------------------------------
-function AlertMailAlways () {
+AlertMailAlways () {
 MossheLog "AlertMailAlways $1"
 MAILTO=$1;
 fgrep -v " - OK - " $TEMPDIR/mosshe_collected.newstatus > $TEMPDIR/tmp.$$.collected.newstatus.nonOK
@@ -665,7 +665,7 @@ rm $TEMPDIR/tmp.$$.collected.newstatus.nonOK
 #---------------------------------------------------------
 # SyslogOnChange  facility
 #---------------------------------------------------------
-function SyslogOnChange () {
+SyslogOnChange () {
 MossheLog "SyslogOnChange $1"
 FACILITY=${1-local0};
 
@@ -703,7 +703,7 @@ fi
 #---------------------------------------------------------
 # LogTo filename
 #---------------------------------------------------------
-function LogTo () {
+LogTo () {
     MossheLog "LogTo $1"
     LOGFILENAME=$1;
     mkdir -p `dirname $LOGFILENAME` 
@@ -714,7 +714,7 @@ function LogTo () {
 #---------------------------------------------------------
 # LogToDaily filename
 #---------------------------------------------------------
-function LogToDaily () {
+LogToDaily () {
     MossheLog "LogToDaily $1"
     LOGFILENAME=$1;
     mkdir -p `dirname $LOGFILENAME` 
@@ -725,7 +725,7 @@ function LogToDaily () {
 #---------------------------------------------------------
 # LogToWeekly filename
 #---------------------------------------------------------
-function LogToWeekly () {
+LogToWeekly () {
     MossheLog "LogToWeekly $1"
     LOGFILENAME=$1;
     mkdir -p `dirname $LOGFILENAME` 
@@ -736,7 +736,7 @@ function LogToWeekly () {
 #---------------------------------------------------------
 # LogToMonthly filename
 #---------------------------------------------------------
-function LogToMonthly () {
+LogToMonthly () {
     MossheLog "LogToMonthly $1"
     LOGFILENAME=$1;
     mkdir -p `dirname $LOGFILENAME` 
@@ -747,7 +747,7 @@ function LogToMonthly () {
 #---------------------------------------------------------
 # SLA_Eval servername checkname
 #---------------------------------------------------------
-function SLA_Eval () {
+SLA_Eval () {
     MossheLog "SLA_Eval srv=$1 chk=$2"
     SRV=$1;
     CHK=$2;
@@ -769,7 +769,7 @@ function SLA_Eval () {
 #---------------------------------------------------------
 # PlotDataFiles   MaxSize
 #---------------------------------------------------------
-function PlotDataFiles () {
+PlotDataFiles () {
     MossheLog "PlotDataFiles $1"
     MAXSIZE=$1;
     cat $WWWDIR/index.csv \
@@ -803,7 +803,7 @@ function PlotDataFiles () {
 #---------------------------------------------------------
 # PlotAvgDataFiles   AverageNum MaxSize
 #---------------------------------------------------------
-function PlotAvgDataFiles () {
+PlotAvgDataFiles () {
     MossheLog "PlotAvgDataFiles $1"
     AVGNUM=$1;
     MAXSIZE=$2;
