@@ -219,7 +219,7 @@ FinalizeLog () {
       done
     fi
 
-    chmod -R ugo+rX "$WWWDIR"    
+    chmod -R ugo+rX ${WWWDIR}
     export OKCOUNT FAILCOUNT
 }
 
@@ -291,7 +291,7 @@ SortGroups () {
 	>> $TEMPDIR/groupcollected.html
     cat $TEMPDIR/mosshe_foot.$$.tmp >> $TEMPDIR/groupcollected.html
     mv $TEMPDIR/groupcollected.html $WWWDIR/groups.html
-    chmod ugo+rX "$WWWDIR/group*.html"    
+    chmod ugo+rX ${WWWDIR}/group*.html
     
     rm $TEMPDIR/mosshe_grouplist.$$.tmp $TEMPDIR/mosshe_foot.$$.tmp $TEMPDIR/mosshe.$$.grouphead.tmp
 
@@ -362,7 +362,7 @@ SortGroups () {
 	>> $TEMPDIR/servercollected.html
     cat $TEMPDIR/mosshe_foot.$$.tmp >> $TEMPDIR/servercollected.html
     mv $TEMPDIR/servercollected.html $WWWDIR/groupsexpanded.html
-    chmod ugo+rX "$WWWDIR/group*.html" "$WWWDIR/server*.html"
+    chmod ugo+rX ${WWWDIR}/group*.html $WWWDIR/server*.html
     
     rm $TEMPDIR/mosshe_serverlist.$$.tmp $TEMPDIR/mosshe_foot.$$.tmp $TEMPDIR/mosshe.$$.serverhead.tmp
 }
@@ -418,14 +418,14 @@ SortServers () {
 	fi
 	cat $TEMPDIR/mosshe_foot.$$.tmp >> $TEMPDIR/mosshe.$$.server.tmp 
 	mv $TEMPDIR/mosshe.$$.server.tmp "$WWWDIR/srv_$SERVER.html"
-	chmod ugo+rX "$WWWDIR/srv_$SERVER.html"
+	chmod ugo+rX ${WWWDIR}/srv_$SERVER.html
 	
     done < $TEMPDIR/mosshe_serverlist.$$.tmp
     
     echo '<tr bgcolor="#dddddd" class="border datarowhead"><td><b>Server</b></td><td><b>Alert</b></td><td><b>Warn</b></td><td><b>Ok</b></td><td><b>Undef</b></td></tr><p>'  >> $TEMPDIR/servercollected.html
     cat $TEMPDIR/mosshe_foot.$$.tmp >> $TEMPDIR/servercollected.html
     mv $TEMPDIR/servercollected.html $WWWDIR/servers.html
-    chmod -R ugo+rX "$WWWDIR/server*.html"
+    chmod -R ugo+rX $WWWDIR/server*.html
     
     rm $TEMPDIR/mosshe_serverlist.$$.tmp $TEMPDIR/mosshe_foot.$$.tmp $TEMPDIR/mosshe.$$.serverhead.tmp
 }
