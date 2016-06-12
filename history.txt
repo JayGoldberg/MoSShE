@@ -38,7 +38,6 @@ please check there for updates prior to submitting patches!
 todo:
 	- BUG (to fix): (re)check on Busybox-compatibility
 	- BUG (to fix): ImportServerInfo does not overwrite old status
-	- want: capacity of UPS (using apcupsd)
 	- want: SNMP query (general)
 	- want: SNMP especially for Windows servers	
 	- want: localchecks, disk usage of single directory	  
@@ -47,6 +46,19 @@ todo:
 	- want: alerting: IM via Jabber
 	- want: alerting: send alerts on ALERT only (escalation)
 	- want: webviews: SLA reports, downtimes/availability
+
+v16.6.12
+    Jay Goldberg http://www.avianblue.net
+	* bugfix/improvement: function declaration with improved compatibility
+	* bugfix/improvement: for-loop with improved compatibility
+    Volker Tanger <volker.tanger@wyae.de>
+	* thanks Jay for all the issues and bugfixes!
+	* bugfix: moved "mail" check to mail alerts (where it belongs) 
+		closing github#6
+	* bugfix: chmod result files to 644 so non-root can read the files
+		when accessing them via webserver - closing github#4
+	* bufgix: renamed template* so it won't be deleted by cleanup script
+		closing github#9 
 
 v16.4.24
     Volker Tanger <volker.tanger@wyae.de>

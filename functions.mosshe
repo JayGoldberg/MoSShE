@@ -26,7 +26,7 @@
 #############################################################################
 
 
-MOSSHEVERSION="16.2.4"
+MOSSHEVERSION="16.6.12"
 
 #---------------------------------------------------------
 # init library and files
@@ -72,12 +72,6 @@ MossheLog () {
 
 MossheSelfCheck () {
     MossheLog "MossheSelfCheck"
-    if [ -z `which mail` ]; then
-    	echo "MoSShE: 'mail' command not availabe, cannot send alerts!"
-	logger -t MoSShE -p local0.alert "MoSShE: 'mail' command not availabe, cannot send alerts!"
-    	exit 255
-    fi
-
     if [ -f $TEMPDIR/mosshe_lock.5 ]; then
     	date | mail -s "$MYGROUP: $MYNAME - MoSShE in deadlock" $1
 	rm -f $TEMPDIR/mosshe_lock.*
@@ -132,7 +126,7 @@ FinalizeLog () {
         echo "MoSShE probably was restarted? Could not find $TEMPDIR/mosshe_collected.newstatus ..."
     fi
     
-    cat $WWWDIR/template_head.html \
+    cat $WWWDIR/template_head.thtml \
     	| sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	| tee $TEMPDIR/mosshe_collected.html \
 	> $TEMPDIR/mosshe_nonokcollected.html
@@ -197,7 +191,7 @@ FinalizeLog () {
 	| tee -a $TEMPDIR/mosshe_collected.html \
 	>> $TEMPDIR/mosshe_nonokcollected.html
     
-    cat $WWWDIR/template_foot.html \
+    cat $WWWDIR/template_foot.thtml \
     	| sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	| sed -e "s/OKCOUNT/$OKCOUNT/g" \
 	| sed -e "s/FAILCOUNT/$FAILCOUNT/g" \
@@ -224,7 +218,8 @@ FinalizeLog () {
 	mv "$F" "$OLDF"
       done
     fi
-    
+
+    chmod -R ugo+rX "$WWWDIR"    
     export OKCOUNT FAILCOUNT
 }
 
@@ -233,19 +228,19 @@ FinalizeLog () {
 #---------------------------------------------------------
 SortGroups () {
     MossheLog "SortGroups $1"
-    cat $WWWDIR/template_head.html \
+    cat $WWWDIR/template_head.thtml \
     	| sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	> $TEMPDIR/groupcollected.html
     echo '<tr bgcolor="#dddddd" class="border datarowhead"><td><b>Group</b></td><td><b>Alert</b></td><td><b>Warn</b></td><td><b>Ok</b></td><td><b>Undef</b></td></tr>' \
 	>> $TEMPDIR/groupcollected.html
 	
-    cat $WWWDIR/template_head.html \
+    cat $WWWDIR/template_head.thtml \
     	    | sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	    > $TEMPDIR/mosshe.$$.grouphead.tmp
     echo '<tr bgcolor="#dddddd" class="border datarowhead"><td><b>Timestamp</b></td><td><b>Group</b></td><td><b>System</b></td><td><b>Property</b></td><td><b>Status</b></td><td><b>Value</b></td><td><b>Detail</b></td></tr>' \
 	>> $TEMPDIR/mosshe.$$.grouphead.tmp
 
-    cat $WWWDIR/template_foot.html \
+    cat $WWWDIR/template_foot.thtml \
     	| fgrep -v "Totals: <div class=\"ok\">OKCOUNT checks are OK</div> - <div class=\"notok\">FAILCOUNT show problems</div>" \
 	>> $TEMPDIR/mosshe_foot.$$.tmp
 
@@ -296,6 +291,7 @@ SortGroups () {
 	>> $TEMPDIR/groupcollected.html
     cat $TEMPDIR/mosshe_foot.$$.tmp >> $TEMPDIR/groupcollected.html
     mv $TEMPDIR/groupcollected.html $WWWDIR/groups.html
+    chmod -R ugo+rX "$WWWDIR/group*.html"    
     
     rm $TEMPDIR/mosshe_grouplist.$$.tmp $TEMPDIR/mosshe_foot.$$.tmp $TEMPDIR/mosshe.$$.grouphead.tmp
 
@@ -303,19 +299,19 @@ SortGroups () {
     #---------------------------------------------------------
     # SortGroupsExpanded - create per-server pages
     #---------------------------------------------------------
-    cat $WWWDIR/template_head.html \
+    cat $WWWDIR/template_head.thtml \
     	| sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	> $TEMPDIR/servercollected.html
     echo '<tr bgcolor="#dddddd" class="border datarowhead"><td><b>Group</b></td><td><b>Server</b></td><td><b>Alert</b></td><td><b>Warn</b></td><td><b>Ok</b></td><td><b>Undef</b></td></tr>' \
 	>> $TEMPDIR/servercollected.html
 	
-    cat $WWWDIR/template_head.html \
+    cat $WWWDIR/template_head.thtml \
     	    | sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	    > $TEMPDIR/mosshe.$$.serverhead.tmp
     echo '<tr bgcolor="#dddddd" class="border datarowhead"><td><b>Timestamp</b></td><td><b>Group</b></td><td><b>System</b></td><td><b>Property</b></td><td><b>Status</b></td><td><b>Value</b></td><td><b>Detail</b></td></tr>' \
 	>> $TEMPDIR/mosshe.$$.serverhead.tmp
 
-    cat $WWWDIR/template_foot.html \
+    cat $WWWDIR/template_foot.thtml \
     	| fgrep -v "Totals: <div class=\"ok\">OKCOUNT checks are OK</div> - <div class=\"notok\">FAILCOUNT show problems</div>" \
 	>> $TEMPDIR/mosshe_foot.$$.tmp
 
@@ -366,6 +362,7 @@ SortGroups () {
 	>> $TEMPDIR/servercollected.html
     cat $TEMPDIR/mosshe_foot.$$.tmp >> $TEMPDIR/servercollected.html
     mv $TEMPDIR/servercollected.html $WWWDIR/groupsexpanded.html
+    chmod -R ugo+rX "$WWWDIR/group*.html"    
     
     rm $TEMPDIR/mosshe_serverlist.$$.tmp $TEMPDIR/mosshe_foot.$$.tmp $TEMPDIR/mosshe.$$.serverhead.tmp
 }
@@ -376,19 +373,19 @@ SortGroups () {
 #---------------------------------------------------------
 SortServers () {
     MossheLog "SortServers $1"
-    cat $WWWDIR/template_head.html \
+    cat $WWWDIR/template_head.thtml \
     	| sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	> $TEMPDIR/servercollected.html
     echo '<tr bgcolor="#dddddd" class="border datarowhead"><td><b>Server</b></td><td><b>Alert</b></td><td><b>Warn</b></td><td><b>Ok</b></td><td><b>Undef</b></td></tr>' \
 	>> $TEMPDIR/servercollected.html
 	
-    cat $WWWDIR/template_head.html \
+    cat $WWWDIR/template_head.thtml \
     	    | sed -e "s/TIMESTAMP/$DATUM - $ZEIT/g" \
 	    > $TEMPDIR/mosshe.$$.serverhead.tmp
     echo '<tr bgcolor="#dddddd"><td><b>Timestamp</b></td><td><b>Group</b></td><td><b>System</b></td><td><b>Property</b></td><td><b>Status</b></td><td><b>Value</b></td><td><b>Detail</b></td></tr>' \
 	>> $TEMPDIR/mosshe.$$.serverhead.tmp
 
-    cat $WWWDIR/template_foot.html \
+    cat $WWWDIR/template_foot.thtml \
     	| fgrep -v "Totals: <div class=\"ok\">OKCOUNT checks are OK</div> - <div class=\"notok\">FAILCOUNT show problems</div>" \
 	>> $TEMPDIR/mosshe_foot.$$.tmp
 
@@ -421,12 +418,14 @@ SortServers () {
 	fi
 	cat $TEMPDIR/mosshe_foot.$$.tmp >> $TEMPDIR/mosshe.$$.server.tmp 
 	mv $TEMPDIR/mosshe.$$.server.tmp "$WWWDIR/srv_$SERVER.html"
+	chmod ugo+rX "$WWWDIR/srv_$SERVER.html"
 	
     done < $TEMPDIR/mosshe_serverlist.$$.tmp
     
     echo '<tr bgcolor="#dddddd" class="border datarowhead"><td><b>Server</b></td><td><b>Alert</b></td><td><b>Warn</b></td><td><b>Ok</b></td><td><b>Undef</b></td></tr><p>'  >> $TEMPDIR/servercollected.html
     cat $TEMPDIR/mosshe_foot.$$.tmp >> $TEMPDIR/servercollected.html
     mv $TEMPDIR/servercollected.html $WWWDIR/servers.html
+    chmod -R ugo+rX "$WWWDIR/server*.html"
     
     rm $TEMPDIR/mosshe_serverlist.$$.tmp $TEMPDIR/mosshe_foot.$$.tmp $TEMPDIR/mosshe.$$.serverhead.tmp
 }
@@ -569,6 +568,12 @@ ReapPassiveChecks () {
 #---------------------------------------------------------
 AlertMailOnChange () {
 MossheLog "AlertMailOnChange $1"
+if [ -z `which mail` ]; then
+    echo "MoSShE: 'mail' command not availabe, cannot send alerts!"
+    MossheLog "AlertMailOnChange $1 - missing 'mail' command"
+    logger -t MoSShE -p local0.alert "MoSShE: 'mail' command not availabe, cannot send alerts!"
+    exit 255
+fi
 MAILTO=$1;
 if [ -s $TEMPDIR/mosshe_collected.diff ]; then
     echo "$WEBURL/notok.html " > $TEMPDIR/MAIL.$$
@@ -603,6 +608,12 @@ fi
 #---------------------------------------------------------
 AlertMailOnChangeFor () {
 MossheLog "AlertMailOnChangeFor srv=$1 to=$2 msg=$3"
+if [ -z `which mail` ]; then
+    echo "MoSShE: 'mail' command not availabe, cannot send alerts!"
+    MossheLog "AlertMailOnChangeFor $1 - missing 'mail' command"
+    logger -t MoSShE -p local0.alert "MoSShE: 'mail' command not availabe, cannot send alerts!"
+    exit 255
+fi
 SERVER=$1
 MAILTO=$2
 SUBJECT=$3
@@ -642,6 +653,12 @@ rm $TEMPDIR/collected_filter.$$.diff
 #---------------------------------------------------------
 AlertMailAlways () {
 MossheLog "AlertMailAlways $1"
+if [ -z `which mail` ]; then
+    echo "MoSShE: 'mail' command not availabe, cannot send alerts!"
+    MossheLog "AlertMailAlways $1 - missing 'mail' command"
+    logger -t MoSShE -p local0.alert "MoSShE: 'mail' command not availabe, cannot send alerts!"
+    exit 255
+fi
 MAILTO=$1;
 fgrep -v " - OK - " $TEMPDIR/mosshe_collected.newstatus > $TEMPDIR/tmp.$$.collected.newstatus.nonOK
 if [ -s $TEMPDIR/tmp.$$.collected.newstatus.nonOK ]; then
