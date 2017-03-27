@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------
-      			MoSShE  v16.6.12
- 	   2003-2016 by Volker Tanger <volker.tanger@wyae.de>
+      			MoSShE  v17.3.27
+ 	   2003-2017 by Volker Tanger <volker.tanger@wyae.de>
 -----------------------------------------------------------------------
 
 MoSShE (MOnitoring in Simple SHell Environment) is a simple,

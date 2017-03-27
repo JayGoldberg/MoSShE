@@ -35,9 +35,24 @@ please check there for updates prior to submitting patches!
 
 ------------------------------------------------------------------------
 
+BUG - MAYBE ARCHITECTURAL/UNFIXABLE
+
+	processing the entries is *S*L*O*W*
+
+	checking 10 servers with total 270 checks takes 4.5 minutes 
+	on a RaspberryPi-B - of these 1.5 minutes are just for 
+	"graphing" (data sorting)
+
+	==> BASH probably is unsuited for monitoring many systems??
+
+------------------------------------------------------------------------
+
+
 todo:
 	- BUG (to fix): (re)check on Busybox-compatibility
 	- BUG (to fix): ImportServerInfo does not overwrite old status
+	- BUG (to fix): whenever a server(-import)  fails, all 
+		prior sub-checks vanish with it
 	- want: SNMP query (general)
 	- want: SNMP especially for Windows servers	
 	- want: localchecks, disk usage of single directory	  
@@ -46,6 +61,14 @@ todo:
 	- want: alerting: IM via Jabber
 	- want: alerting: send alerts on ALERT only (escalation)
 	- want: webviews: SLA reports, downtimes/availability
+
+v17.3.27
+    Volker Tanger <volker.tanger@wyae.de>
+	* bugfix: check for smartctl now to /usr/sbin/smartctl instead of which
+
+v16.10.18
+    Volker Tanger <volker.tanger@wyae.de>
+	* bugfix: smartctl now a bit faster (-A instead of -a)
 
 v16.6.12
     Jay Goldberg http://www.avianblue.net
