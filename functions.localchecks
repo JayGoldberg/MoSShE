@@ -302,14 +302,14 @@ HDhardwareSmart () {
   HD=$1
   KEY=$2
   typeset -i COUNT
-  if [ -z `which smartctl` ]; then
+  if ! [ -x /usr/sbin/smartctl ]; then
     STATUS="UNDEF"
     COUNT=0
     MESSAGE="SMARTCTL not installed - cannot perform HDhardwareSmart check."
   else
     typeset -i WARN ALERT; WARN=$3; ALERT=$4
     STATUS="OK"
-    VALUE=`smartctl -a $HD | fgrep "$KEY" | sed -e "s/  */ /g" | sed -e "s/^ *//g"`
+    VALUE=`/usr/sbin/smartctl -A $HD | fgrep "$KEY" | sed -e "s/  */ /g" | sed -e "s/^ *//g"`
     if [ "$VALUE" ]; then
         COUNT=`echo $VALUE | cut -d " " -f 10`
         MESSAGE="Disk free : $GBVALUE GB"
