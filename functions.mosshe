@@ -44,6 +44,30 @@ DATIM="${DATUM};${ZEIT}"
 
 MOSSHELOG=`date +"${TEMPDIR}/mosshelog_%Y-%m-%d_%Hh%M"`
 
+# TODO want to include thislower down, but needed for vars
+IsLinked() {
+  # TODO what if `which` doesn't exist? `which` is actually a shell script
+  [ ! "$#" -eq 2 ] && { echo "wrong argument count" >&2; return 4; }
+  local destexe="$(which $2)"
+  local exe="$(which $1)"
+
+  [ ! -f "$destexe" ] || [ ! -e "$exe" ] && { echo "some of the paths do not exist" >&2; return 1; }
+
+  # is $exe a symlink?, if so, is it pointing to $destexe?
+  if [ -L "$exe" ] && [ "$(basename $(readlink $exe))"  = "$(basename $destexe)" ]; then
+    echo "true"
+  # is it a hardlink to $destexe?
+  # TODO: what if `stat` is not available? (ls -i $exe | cut -d' ' -f1)
+  elif [ "$(stat -c %i $exe)" = "$(stat -c %i $destexe)" ]; then
+    echo "true"
+  else
+    echo "false"
+  fi
+}
+
+MYNAME=${MYNAME:-$( [ "$(IsLinked uname busybox)" == 'true' ] && uname -n || hostname;)}
+
+MYDOM=${MYDOM:-$( [ "$(IsLinked uname busybox)" == 'true' ] && cat /etc/resolv.conf | grep search | cut -d ' ' -f 2 || hostname -d)}
 
 # Lookup a Group short name via DNS TXT if no MYGROUP supplied
 # Currently only djbdns's dnstxt supported
@@ -55,6 +79,7 @@ if [ -z "$MYGROUP" ]; then
         [ "$MYGROUP" ] && break
     done
 fi
+
 MYGROUP=${MYGROUP:-$MYDOM}
 
 #############################################################################
@@ -65,6 +90,36 @@ MossheLog () {
    date +"%Y-%m-%d %H:%M:%S - $1 " >> $MOSSHELOG
 }
 
+if ! type timeout >/dev/null 2>&1; then
+  timeout() {
+    local timeout_secs=${1:-10}
+    shift
+
+    [ ! -z "${timeout_secs//[0-9]}" ] && { return 65; }
+
+    # subshell
+    (
+      "$@" &
+      child=$!
+      #trap - '' SIGTERM #why would we need this?
+      (
+        sleep $timeout_secs
+        kill $child 2> /dev/null # TODO returns 143 instead of "real" timeout's 124
+      ) &
+      wait $child
+    )
+  }
+  export timeout
+fi
+
+if ! type which 2>&1 >/dev/null; then
+  # implement a silent which
+  which() {
+    ! type "$1" 2>&1 >/dev/null && return 0
+    return 1
+  }
+  export which
+fi
 
 #---------------------------------------------------------
 # Self-Check & Self-Locking - email to admin if in distress
