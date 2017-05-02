@@ -530,8 +530,13 @@ LoadHektoCheck () {
 ProcessCheck () {
     MossheLog "ProcessCheck"
     typeset -i WARN ALERT; WARN=$1; ALERT=$2
-    typeset -i PROCESSES
-    PROCESSES=`ps -A | wc -l`
+    typeset -i PROCESSES OPTS
+    
+    OPTS='-A'
+    
+    "$(IsLinked ps busybox) && OPTS=''
+    
+    PROCESSES=`ps $OPTS | wc -l`
     STATUS="OK"
     MESSAGE="Normal processes count"
     if [ $PROCESSES -ge $WARN ]; then STATUS="WARN"; MESSAGE="Many processes running"; fi
@@ -546,9 +551,14 @@ ProcessCheck () {
 ZombieCheck () {
     MossheLog "ZombieCheck"
     typeset -i WARN ALERT; WARN=$1; ALERT=$2
-    typeset -i PROCESSES
+    typeset -i PROCESSES OPTS
+    
+    OPTS='-A'
+    
+    "$(IsLinked ps busybox) && OPTS=''
+    
     TMPFILE="$TEMPDIR/tmp.$$.$HOSTNAME.PSSTATUS" 
-    ps -A | fgrep "defunct" > $TMPFILE
+    ps $OPTS | fgrep "defunct" > $TMPFILE
     
     PROCESSES=`cat $TMPFILE | wc -l`    
 
