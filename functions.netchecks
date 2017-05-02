@@ -49,7 +49,7 @@ PingPartner () {
     # --- localhost ping statistics ---
     # 3 packets transmitted, 3 received, 0% packet loss, time 1998ms
     # rtt min/avg/max/mdev = 0.057/0.058/0.060/0.001 ms
-    ping -c $NUMPING -W $NETWAIT -n -q $PARTNER > $TEMPDIR/tmp.$$.ping_$PARTNER
+    timeout $NETWAIT ping -c $NUMPING -n -q $PARTNER > $TEMPDIR/tmp.$$.ping_$PARTNER
 
     STATUS="OK"
     MESSAGE="Good ping from $MYGROUP: $MYNAME to $PARTNER"
@@ -87,7 +87,7 @@ Ping6Partner () {
     # --- localhost ping statistics ---
     # 3 packets transmitted, 3 received, 0% packet loss, time 1998ms
     # rtt min/avg/max/mdev = 0.057/0.058/0.060/0.001 ms
-    ping6 -c $NUMPING -W $NETWAIT -n -q $PARTNER > $TEMPDIR/tmp.$$.ping_$PARTNER
+    timeout $NETWAIT ping6 -c $NUMPING-n -q $PARTNER > $TEMPDIR/tmp.$$.ping_$PARTNER
 
     STATUS="OK"
     MESSAGE="Good ping from $MYGROUP: $MYNAME to $PARTNER"
@@ -119,7 +119,7 @@ PingLoss () {
     WARNPERC=$3
     ALERTPERC=$4
     
-    ping -c $NUMPING -W $NETWAIT -n -q $PARTNER > $TEMPDIR/tmp.$$.ping_$PARTNER
+    timeout $NETWAIT ping -c $NUMPING -n -q $PARTNER > $TEMPDIR/tmp.$$.ping_$PARTNER
 
     STATUS="OK"
     MESSAGE="Ignorable packet loss $MYGROUP: $MYNAME to $PARTNER"
@@ -148,7 +148,7 @@ Ping6Loss () {
     WARNPERC=$3
     ALERTPERC=$4
     
-    ping6 -c $NUMPING -W $NETWAIT -n -q $PARTNER > $TEMPDIR/tmp.$$.ping_$PARTNER
+    timeout $NETWAIT ping6 -c $NUMPING -n -q $PARTNER > $TEMPDIR/tmp.$$.ping_$PARTNER
 
     STATUS="OK"
     MESSAGE="Ignorable packet loss $MYGROUP: $MYNAME to $PARTNER"
@@ -177,7 +177,7 @@ PingTime () {
     WARNMS=$3
     ALERTMS=$4
     
-    ping -c $NUMPING -W $NETWAIT -n -q $PARTNER > $TEMPDIR/tmp.$$.ping_$PARTNER
+    timeout $NETWAIT ping -c $NUMPING -n -q $PARTNER > $TEMPDIR/tmp.$$.ping_$PARTNER
 
     STATUS="OK"
     MESSAGE="Good ping from $MYGROUP: $MYNAME to $PARTNER"
@@ -206,7 +206,7 @@ Ping6Time () {
     WARNMS=$3
     ALERTMS=$4
     
-    ping6 -c $NUMPING -W $NETWAIT -n -q $PARTNER > $TEMPDIR/tmp.$$.ping_$PARTNER
+    timeout $NETWAIT ping6 -c $NUMPING -n -q $PARTNER > $TEMPDIR/tmp.$$.ping_$PARTNER
 
     STATUS="OK"
     MESSAGE="Good ping from $MYGROUP: $MYNAME to $PARTNER"
@@ -241,7 +241,7 @@ ARPing () {
 	exit 0
     fi
     
-    VALUE=`arping -c $NUMPING -w $NETWAIT $PARTNER | fgrep Received | cut -d " " -f 2`
+    VALUE=`timeout $NETWAIT arping -c $NUMPING $PARTNER | fgrep Received | cut -d " " -f 2`
 
     STATUS="OK"
     MESSAGE="Ignorable ARP packet loss $MYGROUP: $MYNAME to $PARTNER"
@@ -273,7 +273,7 @@ TCPing () {
     if [ -z `which nc` ]; then
 	echo "${DATIM};$MYGROUP;$SRV;TCPing;UNDEF;-1;NC not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
-	echo " " | nc -w $NETWAIT -q 1 -i 1 $SRV $PORT
+	echo " " | timeout $NETWAIT nc -q 1 -i 1 $SRV $PORT
 	if [ $? -gt 0 ]; then 
 	    STATUS="ALERT";
 	    RTN="Service tcp/$PORT unreachable"
@@ -451,7 +451,7 @@ FTPcheck () {
     if [ -z `which netcat` ]; then
 	echo "${DATIM};$MYGROUP;$MYNAME;FTPcheck;UNDEF;-1;NC not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
-	RTN=`echo "quit" | nc -w $NETWAIT -q 1 -i 1 $SRV 21 | head -n 1`
+	RTN=`echo "quit" | timeout $NETWAIT nc -q 1 -i 1 $SRV 21 | head -n 1`
 	if [ $? -gt 0 ]; 
 	     then STATUS="ALERT";
 	else
@@ -482,7 +482,7 @@ SSHcheck () {
     if [ -z `which netcat` ]; then
 	echo "${DATIM};$MYGROUP;$MYNAME;SSHcheck;UNDEF;-1;NC not installed - cannot perform SSH check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
-	FULLRTN=`echo " " | nc -w $NETWAIT -q 1 -i 1 $SRV $PORT | head -n 1`
+	FULLRTN=`echo " " | timeout $NETWAIT nc -q 1 -i 1 $SRV $PORT | head -n 1`
 	RTN=`echo "$FULLRTN" | head -c 4`
 	if [ "$RTN" = "SSH-" ]; then 
 	    STATUS="OK";
@@ -516,7 +516,7 @@ POP3check () {
     if [ -z `which netcat` ]; then
 	echo "${DATIM};$MYGROUP;$MYNAME;POP3check;UNDEF;-1;NC not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else	
-	RTN=`echo "quit" | nc -w $NETWAIT -q 1 -i 1 $SRV 110 | head --bytes=3`
+	RTN=`echo "quit" | timeout $NETWAIT nc -q 1 -i 1 $SRV 110 | head --bytes=3`
 
 	if [ $? -gt 0 ]; then 
 	    STATUS="ALERT"
@@ -548,7 +548,7 @@ IMAPcheck () {
     if [ -z `which netcat` ]; then
 	echo "${DATIM};$MYGROUP;$MYNAME;IMAPcheck;UNDEF;-1;NC not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else	
-	RTN=`echo "IC Logout" | nc -w $NETWAIT -q 1 -i 1 $SRV 143 | head --bytes=4`
+	RTN=`echo "IC Logout" | timeout $NETWAIT nc -q 1 -i 1 $SRV 143 | head --bytes=4`
 
 	if [ $? -gt 0 ]; then 
 	    STATUS="ALERT"
@@ -580,7 +580,7 @@ SMTPcheck () {
     if [ -z `which netcat` ]; then
 	echo "${DATIM};$MYGROUP;$MYNAME;SMTPcheck;UNDEF;-1;NC not installed - cannot perform network check"  >> $TEMPDIR/tmp.$$.collected.tmp
     else
-	RTN=`echo "quit" | nc -w $NETWAIT -q 1 -i 1 $SRV 25 | head -n 1`
+	RTN=`echo "quit" | timeout $NETWAIT nc -q 1 -i 1 $SRV 25 | head -n 1`
 	if [ $? -gt 0 ]; 
 	     then STATUS="DOWN";
 	else
